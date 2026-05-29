@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>MatIQ — Precision Material Data for Processing Simulations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── SELF-HOSTED ASSETS ── */
+    :root {
+      --hero-photo:   url("/assets/hero-photo.png");
+      --natalie-img:  url("/assets/natalie-img.png");
+      --logo-lg:      "/assets/logo-lg.svg";
+      --logo-sm:      "/assets/logo-sm.svg";
+      --logo-cf-lg:   "/assets/logo-cf-lg.svg";
+      --logo-cf-sm:   "/assets/logo-cf-sm.svg";
+      --icon-1:       url("/assets/icon-1.svg");
+      --icon-2:       url("/assets/icon-2.svg");
+      --icon-3:       url("/assets/icon-3.svg");
+      --icon-4:       url("/assets/icon-4.svg");
+      --ellipse-01:   url("/assets/ellipse-01.svg");
+      --ellipse-02:   url("/assets/ellipse-02.svg");
+      --expert-bg:    url("/assets/expert-bg.svg");
+      --natalie-cf:   url("/assets/natalie-cf.png");
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-width: 1440px;
+      background: #fff;
+      color: #2d2d30;
+      overflow-x: hidden;
+    }
+
+    /* ─── PAGES ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ══════════════════════════════
+       NAV  — fixed, h=76px
+    ══════════════════════════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      width: 1440px; height: 76px;
+      background: rgba(255,255,255,0.97);
+      border-bottom: 1px solid rgba(185,185,188,0.2);
+      backdrop-filter: blur(16px);
+      transition: box-shadow .3s;
+    }
+    .nav.scrolled { box-shadow: 0 2px 20px rgba(45,45,48,.07); }
+
+    .nav-logo {
+      position: absolute; left: 66px; top: 23px;
+      width: 145px; height: 40px;
+      cursor: pointer;
+    }
+    .nav-logo-img { width: 100%; height: 100%; display: block; object-fit: contain; object-position: left; }
+
+    /* Language switcher */
+    .lang-wrap { position: absolute; left: 1122px; top: 27px; }
+    .lang-pill {
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer; user-select: none;
+    }
+    .lang-label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: #7b7b7d; line-height: normal;
+    }
+    .lang-chevron { font-size: 9px; color: #7b7b7d; transition: transform .2s; display: flex; align-items: center; }
+    .lang-wrap.open .lang-chevron { transform: rotate(180deg); }
+    .lang-dropdown {
+      position: absolute; top: calc(100% + 8px); left: -8px;
+      width: 130px; background: #fff;
+      border-radius: 10px; border: 1px solid rgba(185,185,188,.3);
+      box-shadow: 0 4px 20px rgba(45,45,48,.12);
+      overflow: hidden;
+      opacity: 0; pointer-events: none; transform: translateY(-4px);
+      transition: opacity .18s, transform .18s;
+    }
+    .lang-wrap.open .lang-dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .lang-opt {
+      padding: 10px 14px; font-size: 13px; font-weight: 500;
+      color: #2d2d30; cursor: pointer; transition: background .15s;
+    }
+    .lang-opt:hover { background: #eaf4f3; }
+    .lang-opt.active { background: #eaf4f3; color: #338d85; font-weight: 600; }
+
+    /* Nav CTA */
+    .nav-cta-bg {
+      position: absolute; left: 1187px; top: 17px;
+      width: 196px; height: 40px;
+      background: #338d85; border-radius: 20px;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta-bg:hover { background: #1b5c58; transform: translateY(-1px); }
+    .nav-cta-text {
+      position: absolute; left: 1227px; top: 27px;
+      font-size: 13px; font-weight: 600; color: #fff;
+      pointer-events: none; white-space: nowrap;
+    }
+    .nav-cta-link {
+      position: absolute; left: 1187px; top: 17px;
+      width: 196px; height: 40px; cursor: pointer;
+    }
+
+    /* ══════════════════════════════
+       LANDING — HERO  h=740px
+    ══════════════════════════════ */
+    .hero {
+      position: relative;
+      width: 1440px; height: 740px;
+      background: #fff; overflow: hidden;
+    }
+    .hero-photo {
+      position: absolute; left: 668px; top: 0;
+      width: 771.5px; height: 740px;
+      background-image: var(--hero-photo);
+      background-size: cover; background-position: center top;
+    }
+    .hero-content {
+      position: absolute;
+      left: 56px; top: 50%;
+      transform: translateY(-50%);
+      width: 629px;
+      display: flex; flex-direction: column; gap: 60px;
+    }
+    .hero-top { display: flex; flex-direction: column; gap: 24px; }
+    .hero-texts { display: flex; flex-direction: column; gap: 8px; }
+    .hero-eyebrow {
+      font-size: 10.5px; font-weight: 600;
+      color: #338d85; letter-spacing: 2.31px;
+      text-transform: uppercase; line-height: normal;
+      opacity: 0; animation: fadeUp .6s ease .05s forwards;
+    }
+    .hero-h1 {
+      font-size: 58px; font-weight: 700;
+      letter-spacing: -2.61px; line-height: 1.08;
+      color: #2d2d30;
+      opacity: 0; animation: fadeUp .6s ease .18s forwards;
+    }
+    .hero-h1 .teal { color: #338d85; }
+    .hero-lead {
+      font-size: 16.5px; font-weight: 400;
+      color: #7b7b7d; line-height: 1.7;
+      opacity: 0; animation: fadeUp .6s ease .3s forwards;
+    }
+    .hero-cta-wrap {
+      display: flex; flex-direction: column; gap: 8px;
+      opacity: 0; animation: fadeUp .6s ease .42s forwards;
+    }
+    .hero-btn {
+      position: relative; display: inline-block;
+      width: 232px; height: 52px; cursor: pointer;
+    }
+    .hero-btn-bg {
+      position: absolute; inset: 0;
+      background: #338d85; border-radius: 26px;
+      transition: background .2s, transform .18s, box-shadow .2s;
+    }
+    .hero-btn:hover .hero-btn-bg { background: #1b5c58; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(51,141,133,.38); }
+    .hero-btn-text {
+      position: absolute; left: 40px; top: 15px;
+      font-size: 14.5px; font-weight: 700; color: #fff;
+      white-space: pre; pointer-events: none;
+    }
+    .hero-note { font-size: 12.5px; font-weight: 400; color: #b9b9bc; line-height: normal; }
+    .hero-kpis-wrap {
+      position: relative;
+      opacity: 0; animation: fadeUp .6s ease .55s forwards;
+    }
+    .hero-kpis-line {
+      position: absolute; top: 0; left: 0;
+      width: 580px; height: 1px;
+      background: rgba(185,185,188,0.28);
+    }
+    .hero-kpis-row {
+      display: flex; gap: 60px;
+      padding-top: 17px; white-space: nowrap;
+    }
+    .kpi-val {
+      font-size: 26px; font-weight: 700;
+      color: #338d85; letter-spacing: -1.04px; display: block; margin-bottom: 9px;
+    }
+    .kpi-lbl {
+      font-size: 10px; font-weight: 500;
+      color: #7b7b7d; letter-spacing: 0.8px;
+      text-transform: uppercase; display: block;
+    }
+    .hero-divider-r {
+      position: absolute; left: 839px; top: 677px;
+      width: 580px; height: 1px;
+      background: rgba(185,185,188,0.28);
+    }
+
+    /* ══════════════════════════════
+       PROBLEM  h=224px
+    ══════════════════════════════ */
+    .problem {
+      position: relative;
+      width: 1440px; height: 224px;
+      background: #2d2d30;
+    }
+    .problem-chip {
+      position: absolute; left: 56px; top: 44px;
+      font-size: 9.5px; font-weight: 600;
+      color: #338d85; letter-spacing: 2.09px;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .problem-head {
+      position: absolute; left: 56px; top: 62px;
+      font-size: 26px; font-weight: 700;
+      color: #fff; letter-spacing: -0.78px; line-height: 1.3;
+      white-space: nowrap;
+    }
+    .problem-body {
+      position: absolute; left: 692px; top: 40px;
+      width: 620px;
+      font-size: 14.5px; font-weight: 400;
+      color: rgba(255,255,255,0.52); line-height: 1.75;
+    }
+    .problem-body p + p { margin-top: 1.75em; }
+
+    /* ══════════════════════════════
+       PILLARS  h=560px
+    ══════════════════════════════ */
+    .pillars {
+      position: relative;
+      width: 1440px; height: 560px;
+      background: #fff;
+    }
+    .pillars-chip {
+      position: absolute; left: 56px; top: 60px;
+      font-size: 9.5px; font-weight: 600;
+      color: #338d85; letter-spacing: 2.09px;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .pillars-title {
+      position: absolute; left: 56px; top: 80px;
+      font-size: 36px; font-weight: 700;
+      color: #2d2d30; letter-spacing: -1.44px; line-height: 1.18;
+      white-space: nowrap;
+    }
+    .pillars-sub {
+      position: absolute; left: 56px; top: 128px;
+      width: 766px;
+      font-size: 14.5px; font-weight: 400;
+      color: #7b7b7d; line-height: 1.68;
+    }
+
+    /* cards */
+    .card {
+      position: absolute; top: 222px;
+      width: 318px; height: 230px;
+      background: #fff;
+      border: 1px solid rgba(185,185,188,0.3);
+      border-radius: 22px; overflow: hidden;
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+      cursor: default;
+    }
+    .card:hover {
+      border-color: rgba(51,141,133,0.35);
+      box-shadow: 0 8px 32px rgba(51,141,133,.12);
+      transform: translateY(-6px);
+    }
+    .card-bar {
+      position: absolute; left: 17px; top: -1px;
+      width: 287px; height: 2px;
+      background: #338d85;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+    }
+    .card:hover .card-bar { transform: scaleX(1); }
+    .card-icon-bg {
+      position: absolute; left: 25px; top: 25px;
+      width: 42px; height: 42px;
+      background: #eaf4f3; border-radius: 12px;
+      transition: background .3s;
+    }
+    .card:hover .card-icon-bg { background: rgba(51,141,133,.15); }
+    .card-icon {
+      position: absolute; left: 34px; top: 34px;
+      width: 24px; height: 24px;
+    }
+    .card-icon img { width: 100%; height: 100%; display: block; }
+    .card-title {
+      position: absolute; left: 25px; top: 81px;
+      font-size: 14.5px; font-weight: 700;
+      color: #2d2d30; letter-spacing: -0.29px; white-space: nowrap;
+    }
+    .card-copy {
+      position: absolute; left: 25px; top: 109px;
+      width: 266px;
+      font-size: 13px; font-weight: 400;
+      color: #7b7b7d; line-height: 1.68;
+    }
+    .card-1 { left: 56px; }
+    .card-2 { left: 392px; }
+    .card-3 { left: 728px; }
+    .card-4 { left: 1064px; }
+
+    /* ══════════════════════════════
+       PROCESS  h=385px
+    ══════════════════════════════ */
+    .process {
+      position: relative;
+      width: 1440px; height: 385px;
+      background: #338d85;
+    }
+    .process-chip {
+      position: absolute; left: 56px; top: 52px;
+      font-size: 9.5px; font-weight: 600;
+      color: rgba(255,255,255,0.55); letter-spacing: 2.09px;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .process-title {
+      position: absolute; left: 56px; top: 70px;
+      font-size: 30px; font-weight: 700;
+      color: #fff; letter-spacing: -1.05px; line-height: 1.18;
+      white-space: nowrap;
+    }
+    .process-line {
+      position: absolute; left: 255px; top: 188px;
+      width: 927px; height: 1px;
+      background: rgba(255,255,255,0.2);
+    }
+    /* step circles */
+    .step-circle {
+      position: absolute; top: 166px; width: 44px; height: 44px;
+      background-size: cover;
+    }
+    .step-circle-1 { left: 255px; background-image: var(--ellipse-01); }
+    .step-circle-2 { left: 697px; background-image: var(--ellipse-02); }
+    .step-circle-3 { left: 1139px; background-image: var(--ellipse-02); }
+    /* step numbers */
+    .step-num {
+      position: absolute; top: 178px;
+      font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap;
+    }
+    .step-num-1 { left: 270px; }
+    .step-num-2 { left: 711px; }
+    .step-num-3 { left: 1153px; }
+    /* step titles */
+    .step-title {
+      position: absolute; top: 224px;
+      font-size: 13.5px; font-weight: 700; color: #fff;
+      letter-spacing: -0.135px; text-align: center; width: 394px;
+      /* fix: explicit left so reveal's translateY doesn't conflict */
+    }
+    .step-title-1 { left: 80px; }
+    .step-title-2 { left: 522px; }
+    .step-title-3 { left: 964px; }
+    /* step copies */
+    .step-copy {
+      position: absolute; top: 270px;
+      font-size: 13px; font-weight: 400;
+      color: rgba(255,255,255,0.65); line-height: 1.65;
+      text-align: center; width: 370px;
+    }
+    .step-copy-1 { left: 92px; }
+    .step-copy-2 { left: 534px; }
+    .step-copy-3 { left: 976px; }
+
+    /* ══════════════════════════════
+       EXPERT  h=auto, min 495px
+    ══════════════════════════════ */
+    .expert {
+      position: relative;
+      width: 1440px; min-height: 495px;
+      height: auto;
+      background: #f7fafa; overflow: hidden;
+    }
+    .expert-bg {
+      position: absolute; left: 0; top: 0;
+      width: 740px; height: 100%;
+      background-image: var(--expert-bg);
+      background-size: cover;
+      transform: scaleY(-1) rotate(180deg);
+      pointer-events: none;
+    }
+    .expert-border { position: absolute; left: 0; top: 0; width: 1440px; height: 1px; background: rgba(185,185,188,0.2); }
+    .expert-inner {
+      position: relative;
+      margin: 0 auto;
+      left: 56px;
+      width: 1298px;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 60px 0 60px;
+    }
+    /* bio side */
+    .bio {
+      display: flex; flex-direction: column;
+      width: 540px; flex-shrink: 0;
+    }
+    .bio-avatar {
+      width: 88px; height: 88px; border-radius: 50%;
+      background-image: var(--natalie-img);
+      background-size: cover; background-position: center;
+      display: block; flex-shrink: 0;
+    }
+    .bio-name {
+      font-size: 20px; font-weight: 700;
+      color: #2d2d30; letter-spacing: -0.6px;
+      white-space: nowrap; margin-top: 18px;
+    }
+    .bio-role {
+      font-size: 10.5px; font-weight: 600;
+      color: #338d85; letter-spacing: 1.26px;
+      text-transform: uppercase; white-space: nowrap;
+      margin-top: 8px;
+    }
+    .bio-copy {
+      font-size: 13.5px; font-weight: 400;
+      color: #2d2d30; line-height: 1.78;
+      margin-top: 18px;
+    }
+    /* quote side */
+    .quote {
+      display: flex; flex-direction: column;
+      width: 540px; flex-shrink: 0;
+      padding-top: 8px;
+    }
+    .quote-mark {
+      font-size: 88px; font-weight: 700;
+      color: #80b8b3; line-height: 0.8; white-space: nowrap;
+    }
+    .quote-text {
+      font-size: 18px; font-weight: 400;
+      color: #2d2d30; line-height: 1.7;
+      margin-top: 8px;
+    }
+    .quote-text strong { font-weight: 700; color: #338d85; }
+    .quote-attr {
+      font-size: 11.5px; font-weight: 700;
+      color: #2d2d30; letter-spacing: 1.15px;
+      text-transform: uppercase; white-space: nowrap;
+      margin-top: 30px;
+    }
+
+    /* ══════════════════════════════
+       CONTACT  h=556px
+    ══════════════════════════════ */
+    .contact {
+      position: relative;
+      width: 1440px; height: 556px;
+      background: #2d2d30;
+    }
+    .contact-chip {
+      position: absolute; left: 310px; top: 56px;
+      width: 820px; text-align: center;
+      font-size: 9.5px; font-weight: 600;
+      color: #80b8b3; letter-spacing: 2.09px; text-transform: uppercase;
+    }
+    .contact-title {
+      position: absolute; left: 310px; top: 78px;
+      width: 820px; text-align: center;
+      font-size: 40px; font-weight: 700;
+      color: #fff; letter-spacing: -1.8px; line-height: 1.15;
+    }
+    .contact-sub {
+      position: absolute; left: 310px; top: 186px;
+      width: 820px; text-align: center;
+      font-size: 15.5px; font-weight: 400;
+      color: rgba(255,255,255,0.75); line-height: 1.68;
+    }
+    .contact-box {
+      position: absolute; left: 310px; top: 258px;
+      width: 820px; height: 209px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 22px;
+    }
+    .contact-box-inner {
+      position: absolute; left: 35px; top: 29px;
+      width: 747px;
+      display: flex; flex-direction: column; gap: 32px; align-items: center;
+    }
+    .contact-points {
+      display: flex; justify-content: space-between;
+      width: 100%;
+    }
+    .contact-col { display: flex; flex-direction: column; gap: 24px; }
+    .contact-col:first-child { width: 294px; }
+    .contact-col:last-child  { width: 357px; }
+    .contact-item {
+      font-size: 13.5px; font-weight: 400; color: #fff;
+      line-height: 1.6;
+    }
+    .contact-item .arr { color: #338d85; }
+    .contact-btn {
+      display: inline-grid; place-items: start;
+      cursor: pointer; text-decoration: none;
+    }
+    .contact-btn-bg {
+      grid-column: 1; grid-row: 1;
+      width: 232px; height: 50px;
+      background: #fff; border-radius: 25px;
+      transition: background .22s, transform .18s, box-shadow .22s;
+    }
+    .contact-btn:hover .contact-btn-bg { background: #eaf4f3; transform: translateY(-2px); box-shadow: 0 10px 32px rgba(0,0,0,.28); }
+    .contact-btn-text {
+      grid-column: 1; grid-row: 1;
+      font-size: 14.5px; font-weight: 700; color: #1b5c58;
+      margin-top: 14px; margin-left: 29px;
+      pointer-events: none; white-space: pre;
+    }
+    .contact-note {
+      position: absolute; left: 310px; top: 493px;
+      width: 820px; text-align: center;
+      font-size: 12.5px; font-weight: 400;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ══════════════════════════════
+       FOOTER  h=52px
+    ══════════════════════════════ */
+    .footer {
+      width: 1440px; height: 64px;
+      background: #fff;
+      border-top: 1px solid rgba(185,185,188,0.2);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 56px;
+    }
+    .footer-left { display: flex; flex-direction: column; gap: 4px; }
+    .footer-logo { width: 87px; height: 24px; display: block; }
+    .footer-logo img { width: 100%; height: 100%; display: block; object-fit: contain; object-position: left; }
+    .footer-brand-sub {
+      font-size: 8px; font-weight: 600; letter-spacing: .18em;
+      text-transform: uppercase; color: #b9b9bc;
+      white-space: nowrap;
+    }
+    .footer-brand-sub b { color: #7b7b7d; font-weight: 700; }
+    .footer-copy {
+      font-size: 12px; font-weight: 400; color: #b9b9bc;
+      white-space: nowrap;
+    }
+
+    /* ══════════════════════════════
+       CONTACT FORM PAGE
+    ══════════════════════════════ */
+    .cf-header {
+      position: relative; width: 1440px; height: 220px;
+      background: #338d85;
+    }
+    .cf-header-chip {
+      position: absolute; left: 56px; top: 68px;
+      font-size: 10.5px; font-weight: 600;
+      color: rgba(255,255,255,0.55); letter-spacing: 2.31px;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .cf-header-title {
+      position: absolute; left: 56px; top: 88px;
+      font-size: 52px; font-weight: 700;
+      color: #fff; letter-spacing: -2.08px; line-height: 1.08;
+      white-space: nowrap;
+    }
+    .cf-header-sub {
+      position: absolute; left: 56px; top: 158px;
+      width: 580px; height: 40px;
+      font-size: 16.5px; font-weight: 400;
+      color: rgba(255,255,255,0.65); line-height: 1.7;
+    }
+    .cf-header-line {
+      position: absolute; left: 840px; top: 110px;
+      width: 580px; height: 1px;
+      background: rgba(255,255,255,0.12);
+    }
+    .cf-content {
+      position: relative; width: 1440px; height: 995px;
+      background: #fff;
+    }
+    .cf-left-bg {
+      position: absolute; left: 0; top: 0;
+      width: 580px; height: 995px;
+      background: #f7fafa;
+    }
+    .cf-divider-v {
+      position: absolute; left: 580px; top: 0;
+      width: 1px; height: 995px;
+      background: rgba(185,185,188,0.2);
+    }
+    /* left panel */
+    .cf-chip { position: absolute; font-size: 9.5px; font-weight: 600; color: #338d85; letter-spacing: 2.09px; text-transform: uppercase; white-space: nowrap; }
+    .cf-what-chip { left: 56px; top: 72px; }
+    .cf-what-title {
+      position: absolute; left: 56px; top: 92px;
+      width: 400px; height: 40px;
+      font-size: 26px; font-weight: 700;
+      color: #2d2d30; letter-spacing: -0.78px; line-height: 1.28;
+    }
+    .cf-bullets {
+      position: absolute; left: 56px; top: 187px;
+      width: 450px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .cf-bullet { display: flex; align-items: flex-start; gap: 14px; }
+    .cf-bullet-dot {
+      width: 6px; height: 6px; border-radius: 3px;
+      background: #338d85; flex-shrink: 0; margin-top: 9px;
+    }
+    .cf-bullet-text { font-size: 14.5px; font-weight: 400; color: #7b7b7d; line-height: 1.68; }
+    .cf-divider-h {
+      position: absolute; left: 56px; top: 420px;
+      width: 468px; height: 1px;
+      background: rgba(185,185,188,0.3);
+    }
+    .cf-contact-chip { left: 56px; top: 440px; }
+    .cf-avatar {
+      position: absolute; left: 56px; top: 464px;
+      width: 54px; height: 54px; border-radius: 50%;
+      background-image: var(--natalie-cf);
+      background-size: cover; background-position: center;
+    }
+    .cf-expert-name {
+      position: absolute; left: 126px; top: 478px;
+      font-size: 15px; font-weight: 700;
+      color: #2d2d30; letter-spacing: -0.3px; white-space: nowrap;
+    }
+    .cf-expert-role {
+      position: absolute; left: 126px; top: 500px;
+      font-size: 12px; font-weight: 400; color: #7b7b7d; white-space: nowrap;
+    }
+    .cf-email {
+      position: absolute; left: 56px; top: 546px;
+      width: 400px; height: 40px;
+      font-size: 13px; font-weight: 400; color: #338d85;
+      text-decoration: none;
+    }
+    .cf-email:hover { text-decoration: underline; }
+    .cf-quote-card {
+      position: absolute; left: 56px; top: 625px;
+      width: 468px; height: 168px;
+      background: #eaf4f3;
+      border: 1px solid rgba(128,184,179,0.3);
+      border-radius: 16px;
+    }
+    .cf-quote-mark {
+      position: absolute; left: 23px; top: 11px;
+      font-size: 52px; font-weight: 700;
+      color: #80b8b3; line-height: 0.8; white-space: nowrap;
+    }
+    .cf-quote-text {
+      position: absolute; left: 23px; top: 61px;
+      width: 418px; height: 40px;
+      font-size: 13.5px; font-weight: 400;
+      color: #2d2d30; line-height: 1.68;
+    }
+    .cf-quote-attr {
+      position: absolute; left: 23px; top: 137px;
+      font-size: 11px; font-weight: 700;
+      color: #338d85; letter-spacing: 0.88px; white-space: nowrap;
+    }
+
+    /* right panel / form */
+    .cf-req-chip { left: 636px; top: 72px; }
+    .cf-form-title {
+      position: absolute; left: 636px; top: 92px;
+      font-size: 26px; font-weight: 700;
+      color: #2d2d30; letter-spacing: -0.78px; white-space: nowrap;
+    }
+    .cf-form-sub {
+      position: absolute; left: 636px; top: 128px;
+      width: 696px; height: 40px;
+      font-size: 14.5px; font-weight: 400;
+      color: #7b7b7d; line-height: 1.68;
+    }
+    .cf-form-grid {
+      position: absolute; left: 636px; top: 178px;
+      width: 696px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px 40px;
+      align-items: start;
+    }
+    .cf-field {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .cf-field-full { grid-column: 1 / -1; }
+    /* form field labels */
+    .cf-label {
+      position: relative;
+      font-size: 11.5px; font-weight: 600;
+      color: #2d2d30; letter-spacing: 0.575px; white-space: nowrap;
+    }
+    /* form field inputs */
+    .cf-input-bg {
+      position: relative;
+      width: 100%; min-height: 52px;
+      background: #fff;
+      border: 1px solid rgba(185,185,188,0.5);
+      border-radius: 10px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .cf-input-bg:focus-within { border-color: #338d85; box-shadow: 0 0 0 3px rgba(51,141,133,.12); }
+    .cf-field-details .cf-input-bg { min-height: 128px; }
+    .cf-input-real {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none; outline: none; background: transparent;
+      font-family: 'Poppins', sans-serif; font-size: 14px;
+      color: #2d2d30; padding: 0 20px;
+    }
+    .cf-input-real::placeholder { color: #b9b9bc; }
+    .cf-ph {
+      position: absolute;
+      font-size: 14px; font-weight: 400; color: #b9b9bc;
+      pointer-events: none;
+    }
+    .cf-textarea-real {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none; outline: none; background: transparent;
+      font-family: 'Poppins', sans-serif; font-size: 14px;
+      color: #2d2d30; padding: 14px 20px; resize: none;
+      line-height: 1.6;
+    }
+    .cf-textarea-real::placeholder { color: #b9b9bc; }
+    .cf-privacy {
+      position: relative;
+      grid-column: 1 / -1;
+      width: 100%; min-height: 40px;
+      font-size: 12px; font-weight: 400; color: #b9b9bc; line-height: normal;
+      margin-top: 10px;
+    }
+    /* Submit btn */
+    .cf-submit {
+      position: relative;
+      display: inline-grid; place-items: start;
+      cursor: pointer; grid-column: 1 / -1; justify-self: start;
+    }
+    .cf-submit-bg {
+      grid-column: 1; grid-row: 1;
+      width: 232px; height: 52px;
+      background: #338d85; border-radius: 26px;
+      transition: background .2s, transform .18s, box-shadow .2s;
+    }
+    .cf-submit:hover .cf-submit-bg { background: #1b5c58; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(51,141,133,.38); }
+    .cf-submit-text {
+      grid-column: 1; grid-row: 1;
+      font-size: 14.5px; font-weight: 700; color: #fff;
+      margin-top: 16px; margin-left: 30px;
+      pointer-events: none; white-space: pre;
+    }
+    /* What happens next */
+    .cf-next-card {
+      position: absolute; left: 636px; top: 747px;
+      width: 696px; min-height: 176px;
+      background: #2d2d30; border-radius: 16px;
+      padding: 24px 28px;
+      display: grid; gap: 24px;
+    }
+    .cf-next-chip {
+      position: relative;
+      font-size: 9.5px; font-weight: 600;
+      color: #80b8b3; letter-spacing: 2.09px;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .cf-next-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .cf-next-step {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .cf-next-num {
+      position: relative;
+      font-size: 11px; font-weight: 700; color: #338d85; white-space: nowrap;
+    }
+    .cf-next-title {
+      position: relative;
+      font-size: 12.5px; font-weight: 700; color: #fff;
+      letter-spacing: -0.125px; white-space: normal;
+    }
+    .cf-next-desc {
+      position: relative;
+      width: 100%; max-width: 196px;
+      font-size: 12px; font-weight: 400;
+      color: rgba(255,255,255,0.5); line-height: 1.58;
+    }
+
+    /* ══════════════════════════════
+       SCROLL REVEAL
+    ══════════════════════════════ */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    .reveal { opacity:0; transform:translateY(14px); transition:opacity .55s ease,transform .55s ease; }
+    .reveal.in { opacity:1; transform:translateY(0); }
+    .d1{transition-delay:.07s} .d2{transition-delay:.14s} .d3{transition-delay:.21s} .d4{transition-delay:.28s}
+
+    /* ══════════════════════════════
+       FORM SUCCESS
+    ══════════════════════════════ */
+    .cf-success {
+      position: absolute; left: 636px; top: 128px;
+      width: 696px;
+      background: #eaf4f3; border-radius: 16px;
+      padding: 60px 40px; text-align: center;
+      display: none;
+    }
+    .cf-success.show { display: block; }
+    .cf-success-icon { font-size: 48px; margin-bottom: 16px; }
+    .cf-success h3 { font-size: 22px; font-weight: 700; color: #1b5c58; margin-bottom: 8px; }
+    .cf-success p { font-size: 14.5px; color: #7b7b7d; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════ NAV (shared) ════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-logo" onclick="showPage('landing')">
+    <img class="nav-logo-img" id="navLogoImg" src="/assets/logo-lg.svg" alt="MatIQ">
+  </div>
+
+  <!-- language switcher -->
+  <div class="lang-wrap" id="langWrap">
+    <div class="lang-pill" onclick="toggleLang()">
+      <span class="lang-label" id="langLabel">EN</span>
+      <span class="lang-chevron">
+        <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1L5.5 6L10 1" stroke="#7b7b7d" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </span>
+    </div>
+    <div class="lang-dropdown" id="langDropdown">
+      <div class="lang-opt active" id="opt-en" onclick="setLang('en')">🇬🇧&nbsp; English</div>
+      <div class="lang-opt" id="opt-de" onclick="setLang('de')">🇩🇪&nbsp; Deutsch</div>
+    </div>
+  </div>
+
+  <div class="nav-cta-bg"></div>
+  <span class="nav-cta-text" id="navCta" data-en="Talk to Our Expert" data-de="Expertin kontaktieren">Talk to Our Expert</span>
+  <div class="nav-cta-link" onclick="showPage('contact')"></div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     PAGE: LANDING
+════════════════════════════════════════ -->
+<div class="page active" id="page-landing" style="padding-top:76px">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-photo"></div>
+    <div class="hero-divider-r"></div>
+    <div class="hero-content">
+      <div class="hero-top">
+        <div class="hero-texts">
+          <p class="hero-eyebrow" data-en="MATERIAL DATA FOR PROCESSING SIMULATIONS" data-de="MATERIALDATEN FÜR VERARBEITUNGSSIMULATIONEN">MATERIAL DATA FOR PROCESSING SIMULATIONS</p>
+          <p class="hero-h1" data-en-html="Reliable material data, <span class='teal'>without compromise</span>" data-de-html="Zuverlässige Materialdaten, <span class='teal'>ohne Kompromisse</span>">Reliable material data, <span class="teal">without compromise</span></p>
+        </div>
+        <p class="hero-lead" data-en="High-precision material properties for injection molding and extrusion simulations — delivered as structured, ready-to-use datasets. No reports. No overhead. Just data you can trust." data-de="Hochpräzise Materialeigenschaften für Spritzguss- und Extrusionssimulationen — als strukturierte, sofort einsetzbare Datensätze. Keine Berichte. Kein Overhead. Nur Daten, auf die Sie vertrauen können.">High-precision material properties for injection molding and extrusion simulations — delivered as structured, ready-to-use datasets. No reports. No overhead. Just data you can trust.</p>
+        <div class="hero-cta-wrap">
+          <div class="hero-btn" onclick="showPage('contact')">
+            <div class="hero-btn-bg"></div>
+            <span class="hero-btn-text" data-en="Talk to Our Expert  →" data-de="Expertin kontaktieren  →">Talk to Our Expert  →</span>
+          </div>
+          <span class="hero-note" data-en="No preparation needed — we'll walk you through everything." data-de="Keine Vorbereitung nötig — wir führen Sie durch alles.">No preparation needed — we'll walk you through everything.</span>
+        </div>
+      </div>
+      <div class="hero-kpis-wrap">
+        <div class="hero-kpis-line"></div>
+        <div class="hero-kpis-row">
+          <div><span class="kpi-val">€4K</span><span class="kpi-lbl" data-en="PER DATASET" data-de="PRO DATENSATZ">PER DATASET</span></div>
+          <div><span class="kpi-val">~8 wk</span><span class="kpi-lbl" data-en="LEAD TIME" data-de="LIEFERZEIT">LEAD TIME</span></div>
+          <div><span class="kpi-val">CSV</span><span class="kpi-lbl" data-en="STRUCTURED FORMAT" data-de="STRUKTURIERT">STRUCTURED FORMAT</span></div>
+          <div><span class="kpi-val">20+</span><span class="kpi-lbl" data-en="YEARS EXPERTISE" data-de="JAHRE ERFAHRUNG">YEARS EXPERTISE</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="problem reveal">
+    <p class="problem-chip" data-en="THE PROBLEM" data-de="DAS PROBLEM">THE PROBLEM</p>
+    <div class="problem-head" data-en-html="Simulation accuracy<br>starts with data quality." data-de-html="Simulationsgenauigkeit<br>beginnt mit Datenqualität.">Simulation accuracy<br>starts with data quality.</div>
+    <div class="problem-body reveal d1">
+      <p data-en="Most material databases rely on single-point measurements that fail to capture real processing conditions. When viscosity, pvT behavior, and thermal properties are incomplete or inconsistently generated, simulation models fall short — regardless of how powerful the software is." data-de="Die meisten Materialdatenbanken verwenden Einzelpunktmessungen, die reale Verarbeitungsbedingungen nicht abbilden. Wenn Viskosität, pvT-Verhalten und thermische Eigenschaften unvollständig sind, versagen Simulationsmodelle — unabhängig von der Software.">Most material databases rely on single-point measurements that fail to capture real processing conditions. When viscosity, pvT behavior, and thermal properties are incomplete or inconsistently generated, simulation models fall short — regardless of how powerful the software is.</p>
+      <p data-en="The gap isn't in the simulation tool. It's in the data behind it." data-de="Das Problem liegt nicht im Simulationstool. Es liegt in den Daten dahinter.">The gap isn't in the simulation tool. It's in the data behind it.</p>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="pillars">
+    <p class="pillars-chip reveal" data-en="OUR APPROACH" data-de="UNSER ANSATZ">OUR APPROACH</p>
+    <p class="pillars-title reveal d1" data-en="Standardized. Structured. Simple to use in Simulation" data-de="Standardisiert. Strukturiert. Einfach in Simulationen.">Standardized. Structured. Simple to use in Simulation</p>
+    <p class="pillars-sub reveal d2" data-en="Every dataset is generated through a controlled experimental workflow — reproducible, rigorous, and delivered without the overhead of consulting reports." data-de="Jeder Datensatz wird durch einen kontrollierten experimentellen Workflow erstellt — reproduzierbar, rigoros und ohne den Overhead von Beratungsberichten.">Every dataset is generated through a controlled experimental workflow — reproducible, rigorous, and delivered without the overhead of consulting reports.</p>
+
+    <div class="card card-1 reveal d1">
+      <div class="card-bar"></div>
+      <div class="card-icon-bg"></div>
+      <div class="card-icon"><img src="/assets/icon-1.svg" alt=""></div>
+      <p class="card-title" data-en="High Precision" data-de="Hohe Präzision">High Precision</p>
+      <p class="card-copy" data-en="Multi-point measurements across relevant temperature and pressure conditions. Consistent. Reproducible. Purpose-built for simulation accuracy." data-de="Mehrpunktmessungen über relevante Temperatur- und Druckbedingungen. Konsistent. Reproduzierbar. Für Simulationsgenauigkeit optimiert.">Multi-point measurements across relevant temperature and pressure conditions. Consistent. Reproducible. Purpose-built for simulation accuracy.</p>
+    </div>
+    <div class="card card-2 reveal d2">
+      <div class="card-bar"></div>
+      <div class="card-icon-bg"></div>
+      <div class="card-icon"><img src="/assets/icon-2.svg" alt=""></div>
+      <p class="card-title" data-en="Built for Simulation" data-de="Für Simulation entwickelt">Built for Simulation</p>
+      <p class="card-copy" data-en="Optimized for injection molding and extrusion. Data is ready to be integrated directly into your simulation environment." data-de="Optimiert für Spritzguss und Extrusion. Daten lassen sich direkt in Ihre Simulationsumgebung integrieren.">Optimized for injection molding and extrusion. Data is ready to be integrated directly into your simulation environment.</p>
+    </div>
+    <div class="card card-3 reveal d3">
+      <div class="card-bar"></div>
+      <div class="card-icon-bg"></div>
+      <div class="card-icon"><img src="/assets/icon-3.svg" alt=""></div>
+      <p class="card-title" data-en="Structured Data" data-de="Strukturierte Daten">Structured Data</p>
+      <p class="card-copy" data-en="Clean, ready-to-use datasets in CSV format. No PDFs, no interpretation layers required — just data." data-de="Saubere, sofort einsetzbare Datensätze im CSV-Format. Keine PDFs, keine Interpretationsschichten — nur Daten.">Clean, ready-to-use datasets in CSV format. No PDFs, no interpretation layers required — just data.</p>
+    </div>
+    <div class="card card-4 reveal d4">
+      <div class="card-bar"></div>
+      <div class="card-icon-bg"></div>
+      <div class="card-icon"><img src="/assets/icon-4.svg" alt=""></div>
+      <p class="card-title" data-en="Accessible Pricing" data-de="Zugängliche Preisgestaltung">Accessible Pricing</p>
+      <p class="card-copy" data-en="~€4,000 per dataset. Standardization removes the overhead — not the quality. Price reflects lean delivery, not corner-cutting." data-de="~€4.000 pro Datensatz. Standardisierung beseitigt den Overhead — nicht die Qualität. Der Preis spiegelt schlanke Lieferung wider.">~€4,000 per dataset. Standardization removes the overhead — not the quality. Price reflects lean delivery, not corner-cutting.</p>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process">
+    <p class="process-chip reveal" data-en="HOW IT WORKS" data-de="SO FUNKTIONIERT ES">HOW IT WORKS</p>
+    <p class="process-title reveal d1" data-en="From material to data in ~8 weeks." data-de="Vom Material zu Daten in ~8 Wochen.">From material to data in ~8 weeks.</p>
+    <div class="process-line reveal d2"></div>
+
+    <div class="step-circle step-circle-1 reveal d1"></div>
+    <p class="step-num step-num-1 reveal d1">01</p>
+    <p class="step-title step-title-1 reveal d1" data-en="Preparation" data-de="Vorbereitung">Preparation</p>
+    <p class="step-copy step-copy-1 reveal d1" data-en="Specimen preparation per test method ensures controlled, reproducible starting conditions for every measurement." data-de="Probenvorbereitung nach Prüfmethode gewährleistet kontrollierte, reproduzierbare Ausgangsbedingungen für jede Messung.">Specimen preparation per test method ensures controlled, reproducible starting conditions for every measurement.</p>
+
+    <div class="step-circle step-circle-2 reveal d2"></div>
+    <p class="step-num step-num-2 reveal d2">02</p>
+    <p class="step-title step-title-2 reveal d2" data-en="Controlled Measurement" data-de="Kontrollierte Messung">Controlled Measurement</p>
+    <p class="step-copy step-copy-2 reveal d2" data-en="Multi-point measurements — rheology, pvT, and thermal properties — under rigorous experimental protocols." data-de="Mehrpunktmessungen — Rheologie, pvT und thermische Eigenschaften — nach strengen experimentellen Protokollen.">Multi-point measurements — rheology, pvT, and thermal properties — under rigorous experimental protocols.</p>
+
+    <div class="step-circle step-circle-3 reveal d3"></div>
+    <p class="step-num step-num-3 reveal d3">03</p>
+    <p class="step-title step-title-3 reveal d3" data-en="Validation &amp; Delivery" data-de="Validierung &amp; Lieferung">Validation &amp; Delivery</p>
+    <p class="step-copy step-copy-3 reveal d3" data-en="Data validated and structured into clean CSV datasets, ready to integrate directly into your simulation workflow." data-de="Daten werden validiert und in saubere CSV-Datensätze strukturiert, bereit zur direkten Integration in Ihren Simulations-Workflow.">Data validated and structured into clean CSV datasets, ready to integrate directly into your simulation workflow.</p>
+  </section>
+
+  <!-- EXPERT -->
+  <section class="expert">
+    <div class="expert-bg"></div>
+    <div class="expert-border"></div>
+    <div class="expert-inner">
+      <div class="bio reveal">
+        <div class="bio-avatar"></div>
+        <p class="bio-name">Dr. Natalie Rudolph</p>
+        <p class="bio-role" data-en="SENIOR MATERIAL EXPERT · NETZSCH GROUP" data-de="SENIOR MATERIAL EXPERTIN · NETZSCH GROUP">SENIOR MATERIAL EXPERT · NETZSCH GROUP</p>
+        <p class="bio-copy" data-en="Dr. Natalie Rudolph is an expert in polymer processing, material characterization, and simulation. Her work focuses on generating high-quality material data through rigorous experimental methods, with particular expertise in rheology, pvT behavior, and thermal analysis.<br><br>Her experience spans academia and industry, including roles at Fraunhofer IGCV, the University of Wisconsin–Madison, and AREVO Inc., and she is co-author of several key publications on polymer rheology, plastics recycling, and material characterization." data-de="Dr. Natalie Rudolph ist Expertin für Polymerverarbeitung, Materialcharakterisierung und Simulation. Ihr Fokus liegt auf der Erzeugung hochwertiger Materialdaten durch strenge experimentelle Methoden, mit besonderer Expertise in Rheologie, pvT-Verhalten und thermischer Analyse.<br><br>Ihre Erfahrung umfasst Wissenschaft und Industrie, darunter Positionen am Fraunhofer IGCV, der University of Wisconsin–Madison und AREVO Inc.">Dr. Natalie Rudolph is an expert in polymer processing, material characterization, and simulation. Her work focuses on generating high-quality material data through rigorous experimental methods, with particular expertise in rheology, pvT behavior, and thermal analysis.<br><br>Her experience spans academia and industry, including roles at Fraunhofer IGCV, the University of Wisconsin–Madison, and AREVO Inc., and she is co-author of several key publications on polymer rheology, plastics recycling, and material characterization.</p>
+      </div>
+      <div class="quote reveal d2">
+        <p class="quote-mark">"</p>
+        <p class="quote-text" data-en-html='Not all material data is created equal. The measurement method and conditions matter — and in many real-world applications, <strong>multi-point data leads to significantly better results</strong> than single-point data.' data-de-html='Nicht alle Materialdaten sind gleich. Die Messmethode und -bedingungen sind entscheidend — und in vielen Anwendungen führen <strong>Mehrpunktdaten zu deutlich besseren Ergebnissen</strong> als Einzelpunktdaten.'>Not all material data is created equal. The measurement method and conditions matter — and in many real-world applications, <strong>multi-point data leads to significantly better results</strong> than single-point data.</p>
+        <p class="quote-attr">Dr. Natalie Rudolph</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="cta">
+    <p class="contact-chip reveal" data-en="GET IN TOUCH" data-de="KONTAKT">GET IN TOUCH</p>
+    <div class="contact-title reveal d1" data-en-html="<p>Learn more about our approach</p><p>to high-quality material data.</p>" data-de-html="<p>Erfahren Sie mehr über unseren Ansatz</p><p>für hochwertige Materialdaten.</p>"><p>Learn more about our approach</p><p>to high-quality material data.</p></div>
+    <p class="contact-sub reveal d2" data-en="In a short call, we can walk you through the scope of measurements, our data generation process, lead times, and transparent pricing." data-de="In einem kurzen Gespräch führen wir Sie durch den Messumfang, unseren Datenerzeugungsprozess, Lieferzeiten und transparente Preise.">In a short call, we can walk you through the scope of measurements, our data generation process, lead times, and transparent pricing.</p>
+    <div class="contact-box reveal d2">
+      <div class="contact-box-inner">
+        <div class="contact-points">
+          <div class="contact-col">
+            <p class="contact-item"><span class="arr">→</span>&nbsp; <span data-en="Scope of measurements" data-de="Umfang der Messungen">Scope of measurements</span></p>
+            <p class="contact-item"><span class="arr">→</span>&nbsp; <span data-en="Data generation process and lead times" data-de="Datenerzeugungsprozess und Lieferzeiten">Data generation process and lead times</span></p>
+          </div>
+          <div class="contact-col">
+            <p class="contact-item"><span class="arr">→</span>&nbsp; <span data-en="Integration into your simulation workflows" data-de="Integration in Ihre Simulations-Workflows">Integration into your simulation workflows</span></p>
+            <p class="contact-item"><span class="arr">→</span>&nbsp; <span data-en="Transparent pricing and available data packages" data-de="Transparente Preise und verfügbare Datenpakete">Transparent pricing and available data packages</span></p>
+          </div>
+        </div>
+        <div class="contact-btn" onclick="showPage('contact')">
+          <div class="contact-btn-bg"></div>
+          <span class="contact-btn-text" data-en="Request Information  →" data-de="Informationen anfordern  →">Request Information  →</span>
+        </div>
+      </div>
+    </div>
+    <p class="contact-note reveal" data-en="No preparation needed — we'll walk you through everything." data-de="Keine Vorbereitung nötig — wir führen Sie durch alles.">No preparation needed — we'll walk you through everything.</p>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <div class="footer-logo"><img src="/assets/logo-sm.svg" alt="MatIQ"></div>
+      <span class="footer-brand-sub">A <b>NETZSCH PROVEN</b> EXCELLENCE MATERIAL MEASUREMENT</span>
+    </div>
+    <p class="footer-copy">© 2026 MatIQ · Netzsch Group · All rights reserved</p>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: CONTACT FORM
+════════════════════════════════════════ -->
+<div class="page" id="page-contact" style="padding-top:76px">
+
+  <!-- TEAL HEADER -->
+  <div class="cf-header">
+    <p class="cf-header-chip" data-en="GET IN TOUCH" data-de="KONTAKT AUFNEHMEN">GET IN TOUCH</p>
+    <p class="cf-header-title" data-en="Contact Our Expert" data-de="Unsere Expertin kontaktieren">Contact Our Expert</p>
+    <p class="cf-header-sub" data-en="No preparation needed — we'll walk you through everything." data-de="Keine Vorbereitung nötig — wir führen Sie durch alles.">No preparation needed — we'll walk you through everything.</p>
+    <div class="cf-header-line"></div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="cf-content">
+    <div class="cf-left-bg"></div>
+    <div class="cf-divider-v"></div>
+
+    <!-- LEFT: context -->
+    <p class="cf-chip cf-what-chip" data-en="WHAT TO EXPECT" data-de="WAS SIE ERWARTET">WHAT TO EXPECT</p>
+    <div class="cf-what-title" data-en-html="In a short call,<br>we'll walk you through:" data-de-html="In einem kurzen Gespräch<br>führen wir Sie durch:">In a short call,<br>we'll walk you through:</div>
+    <div class="cf-bullets">
+      <div class="cf-bullet"><div class="cf-bullet-dot"></div><p class="cf-bullet-text" data-en="Scope of measurements" data-de="Umfang der Messungen">Scope of measurements</p></div>
+      <div class="cf-bullet"><div class="cf-bullet-dot"></div><p class="cf-bullet-text" data-en="Data generation process and lead times" data-de="Datenerzeugungsprozess und Lieferzeiten">Data generation process and lead times</p></div>
+      <div class="cf-bullet"><div class="cf-bullet-dot"></div><p class="cf-bullet-text" data-en="Integration into your simulation workflows" data-de="Integration in Ihre Simulations-Workflows">Integration into your simulation workflows</p></div>
+      <div class="cf-bullet"><div class="cf-bullet-dot"></div><p class="cf-bullet-text" data-en="Transparent pricing and available data packages" data-de="Transparente Preise und verfügbare Datenpakete">Transparent pricing and available data packages</p></div>
+    </div>
+    <div class="cf-divider-h"></div>
+    <p class="cf-chip cf-contact-chip" data-en="YOUR POINT OF CONTACT" data-de="IHRE ANSPRECHPARTNERIN">YOUR POINT OF CONTACT</p>
+    <div class="cf-avatar"></div>
+    <p class="cf-expert-name">Dr. Natalie Rudolph</p>
+    <p class="cf-expert-role" data-en="Senior Material Expert" data-de="Senior Material Expertin">Senior Material Expert</p>
+    <a class="cf-email" href="mailto:Natalie.Rudolph@netzsch.com">Natalie.Rudolph@netzsch.com</a>
+    <div class="cf-quote-card">
+      <p class="cf-quote-mark">"</p>
+      <p class="cf-quote-text" data-en="Not all material data is created equal. The measurement method and conditions matter." data-de="Nicht alle Materialdaten sind gleich. Die Messmethode und Bedingungen sind entscheidend.">Not all material data is created equal. The measurement method and conditions matter.</p>
+      <p class="cf-quote-attr" data-en="— Dr. Natalie Rudolph" data-de="— Dr. Natalie Rudolph">— Dr. Natalie Rudolph</p>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="cf-side-right">
+      <p class="cf-chip cf-req-chip" data-en="YOUR REQUEST" data-de="IHRE ANFRAGE">YOUR REQUEST</p>
+      <p class="cf-form-title" data-en="Tell us about your project" data-de="Erzählen Sie uns von Ihrem Projekt">Tell us about your project</p>
+      <p class="cf-form-sub" data-en="Fill in the form and we'll be in touch within 1–2 business days." data-de="Füllen Sie das Formular aus — wir melden uns innerhalb von 1–2 Werktagen.">Fill in the form and we'll be in touch within 1–2 business days.</p>
+
+      <!-- success state -->
+      <div class="cf-success" id="cfSuccess" role="status" aria-live="polite">
+        <div class="cf-success-icon">✅</div>
+        <h3 data-en="Request sent!" data-de="Anfrage gesendet!">Request sent!</h3>
+        <p data-en="Thank you. Dr. Rudolph will be in touch within 1–2 business days." data-de="Vielen Dank. Dr. Rudolph meldet sich innerhalb von 1–2 Werktagen.">Thank you. Dr. Rudolph will be in touch within 1–2 business days.</p>
+      </div>
+
+      <form class="cf-form-grid" id="contactForm" novalidate>
+        <input type="hidden" name="formStartedAt" id="cfFormStartedAt" value="">
+        <input
+          class="cf-honeypot"
+          type="text"
+          name="website"
+          id="cfWebsite"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+        >
+
+        <!-- FULL NAME -->
+        <div class="cf-field cf-field-full" data-field="fullName">
+          <label class="cf-label" for="cfFullName" data-en="Full Name *" data-de="Vollständiger Name *">Full Name *</label>
+          <div class="cf-input-bg">
+            <input
+              class="cf-input-real"
+              id="cfFullName"
+              name="fullName"
+              type="text"
+              placeholder="e.g. Jane Smith"
+              autocomplete="name"
+              required
+              minlength="2"
+              maxlength="120"
+              aria-describedby="cfFullNameError"
+            >
+          </div>
+          <p class="cf-field-error" id="cfFullNameError" aria-live="polite"></p>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="cf-field" data-field="email">
+          <label class="cf-label" for="cfEmail" data-en="Email Address *" data-de="E-Mail-Adresse *">Email Address *</label>
+          <div class="cf-input-bg">
+            <input
+              class="cf-input-real"
+              id="cfEmail"
+              name="email"
+              type="email"
+              placeholder="jane@company.com"
+              autocomplete="email"
+              required
+              maxlength="160"
+              inputmode="email"
+              aria-describedby="cfEmailError"
+            >
+          </div>
+          <p class="cf-field-error" id="cfEmailError" aria-live="polite"></p>
+        </div>
+
+        <!-- PHONE -->
+        <div class="cf-field" data-field="phone">
+          <label class="cf-label" for="cfPhone" data-en="Phone Number" data-de="Telefonnummer">Phone Number</label>
+          <div class="cf-input-bg">
+            <input
+              class="cf-input-real"
+              id="cfPhone"
+              name="phone"
+              type="tel"
+              placeholder="+1 (555) 000-0000"
+              autocomplete="tel"
+              maxlength="30"
+              inputmode="tel"
+              aria-describedby="cfPhoneError"
+            >
+          </div>
+          <p class="cf-field-error" id="cfPhoneError" aria-live="polite"></p>
+        </div>
+
+        <!-- COMPANY -->
+        <div class="cf-field cf-field-full" data-field="company">
+          <label class="cf-label" for="cfCompany" data-en="Company / Institution *" data-de="Unternehmen / Institution *">Company / Institution *</label>
+          <div class="cf-input-bg">
+            <input
+              class="cf-input-real"
+              id="cfCompany"
+              name="company"
+              type="text"
+              placeholder="e.g. Siemens AG"
+              autocomplete="organization"
+              required
+              minlength="2"
+              maxlength="160"
+              aria-describedby="cfCompanyError"
+            >
+          </div>
+          <p class="cf-field-error" id="cfCompanyError" aria-live="polite"></p>
+        </div>
+
+        <!-- ADDITIONAL DETAILS -->
+        <div class="cf-field cf-field-full cf-field-details" data-field="details">
+          <label class="cf-label" for="cfDetails" data-en="Additional Details" data-de="Weitere Details">Additional Details</label>
+          <div class="cf-input-bg">
+            <textarea
+              class="cf-textarea-real"
+              id="cfDetails"
+              name="details"
+              placeholder="Requirements, temperature/pressure range, geometry, deadline…"
+              maxlength="2000"
+              aria-describedby="cfDetailsError"
+            ></textarea>
+          </div>
+          <div class="cf-field-meta">
+            <p class="cf-field-error" id="cfDetailsError" aria-live="polite"></p>
+            <p class="cf-field-counter" id="cfDetailsCounter">0 / 2000</p>
+          </div>
+        </div>
+
+        <div class="cf-consent-row">
+          <label class="cf-consent" for="cfConsent" data-field="consent">
+            <input class="cf-consent-input" id="cfConsent" name="consent" type="checkbox" value="yes" aria-describedby="cfConsentError" required>
+            <span class="cf-consent-box" aria-hidden="true"></span>
+            <span class="cf-privacy" data-en="I agree to be contacted by MatIQ / NETZSCH regarding this request and the next steps." data-de="Ich stimme zu, dass MatIQ / NETZSCH mich bezüglich dieser Anfrage und der nächsten Schritte kontaktieren darf.">I agree to be contacted by MatIQ / NETZSCH regarding this request and the next steps.</span>
+          </label>
+          <p class="cf-field-error" id="cfConsentError" aria-live="polite"></p>
+        </div>
+
+        <p class="cf-form-status" id="cfFormStatus" role="status" aria-live="polite"></p>
+
+        <!-- SUBMIT -->
+        <button class="cf-submit" id="cfSubmit" type="submit">
+          <span class="cf-submit-bg"></span>
+          <span
+            class="cf-submit-text"
+            data-en="Submit Request  →"
+            data-de="Anfrage senden  →"
+            data-en-loading="Sending Request..."
+            data-de-loading="Anfrage wird gesendet..."
+          >Submit Request  →</span>
+        </button>
+      </form>
+
+      <!-- WHAT HAPPENS NEXT -->
+      <div class="cf-next-card">
+        <p class="cf-next-chip" data-en="WHAT HAPPENS NEXT" data-de="WIE GEHT ES WEITER">WHAT HAPPENS NEXT</p>
+        <div class="cf-next-steps">
+          <div class="cf-next-step">
+            <p class="cf-next-num">01</p>
+            <p class="cf-next-title" data-en="We review your request" data-de="Wir prüfen Ihre Anfrage">We review your request</p>
+            <p class="cf-next-desc" data-en="Usually within 1–2 business days." data-de="In der Regel innerhalb von 1–2 Werktagen.">Usually within 1–2 business days.</p>
+          </div>
+
+          <div class="cf-next-step">
+            <p class="cf-next-num">02</p>
+            <p class="cf-next-title" data-en="Short intro call" data-de="Kurzes Einführungsgespräch">Short intro call</p>
+            <p class="cf-next-desc" data-en="~30 min to align on scope and requirements." data-de="~30 Min. zur Abstimmung über Umfang und Anforderungen.">~30 min to align on scope and requirements.</p>
+          </div>
+
+          <div class="cf-next-step">
+            <p class="cf-next-num">03</p>
+            <p class="cf-next-title" data-en="Data package proposal" data-de="Datenpaket-Angebot">Data package proposal</p>
+            <p class="cf-next-desc" data-en="Tailored quote and timeline sent to you." data-de="Maßgeschneidertes Angebot und Zeitplan zugesandt.">Tailored quote and timeline sent to you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <div class="footer-logo"><img src="/assets/logo-cf-sm.svg" alt="MatIQ"></div>
+      <span class="footer-brand-sub">A <b>NETZSCH PROVEN</b> EXCELLENCE MATERIAL MEASUREMENT</span>
+    </div>
+    <p class="footer-copy">© 2026 MatIQ · Netzsch Group · All rights reserved</p>
+  </footer>
+</div>
+
+<script>
+  /* ── scroll nav shadow ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  /* ── scroll reveal ── */
+  const io = new IntersectionObserver(
+    es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
+    { threshold: 0.07 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ── page routing ── */
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+    if (name === 'landing') {
+      document.querySelectorAll('#page-landing .reveal').forEach(el => { el.classList.remove('in'); io.observe(el); });
+    }
+    // update nav logo
+    const logos = { landing: '/assets/logo-lg.svg', contact: '/assets/logo-cf-lg.svg' };
+    document.getElementById('navLogoImg').src = logos[name];
+  }
+
+  /* ── language switcher ── */
+  let lang = 'en';
+  function toggleLang() { document.getElementById('langWrap').classList.toggle('open'); }
+  document.addEventListener('click', e => { if (!e.target.closest('.lang-wrap')) document.getElementById('langWrap').classList.remove('open'); });
+
+  function setLang(l) {
+    lang = l;
+    document.getElementById('langWrap').classList.remove('open');
+    document.getElementById('langLabel').textContent = l.toUpperCase();
+    document.getElementById('opt-en').classList.toggle('active', l === 'en');
+    document.getElementById('opt-de').classList.toggle('active', l === 'de');
+    document.documentElement.lang = l;
+    applyLang();
+  }
+
+  function applyLang() {
+    // simple text nodes
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const val = el.getAttribute('data-' + lang);
+      if (val !== null) el.textContent = val;
+    });
+    // html nodes (have data-en-html)
+    document.querySelectorAll('[data-en-html]').forEach(el => {
+      const val = el.getAttribute('data-' + lang + '-html');
+      if (val !== null) el.innerHTML = val;
+    });
+  }
+
+  /* ── form submit ── */
+  function handleSubmit() {
+    // hide form fields and show success
+    const fields = document.querySelectorAll('.cf-input-bg, .cf-textarea-real, .cf-label, .cf-form-sub, .cf-privacy, .cf-submit');
+    fields.forEach(el => { el.style.opacity = '0'; el.style.pointerEvents = 'none'; });
+    document.getElementById('cfSuccess').classList.add('show');
+  }
+</script>
+</body>
+</html>

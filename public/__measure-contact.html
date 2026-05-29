@@ -1,0 +1,44 @@
+﻿<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Measure</title></head>
+<body>
+<pre id="out">pending</pre>
+<iframe id="app" src="http://127.0.0.1:5173/" style="width:1600px;height:1400px;border:0"></iframe>
+<script>
+const out = document.getElementById('out');
+const frame = document.getElementById('app');
+const done = () => {
+  try {
+    const win = frame.contentWindow;
+    const doc = win.document;
+    if (!win || typeof win.showPage !== 'function') return setTimeout(done, 100);
+    win.showPage('contact');
+    setTimeout(() => {
+      const pick = (sel) => {
+        const el = doc.querySelector(sel);
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        const cs = win.getComputedStyle(el);
+        return { left: r.left, right: r.right, width: r.width, top: r.top, marginLeft: cs.marginLeft, paddingLeft: cs.paddingLeft };
+      };
+      out.textContent = JSON.stringify({
+        viewport: win.innerWidth,
+        root: pick('.site-canvas'),
+        header: pick('.cf-header'),
+        content: pick('.cf-content'),
+        leftCol: pick('.cf-what-title'),
+        divider: pick('.cf-divider-v'),
+        rightWrap: pick('.cf-side-right'),
+        req: pick('.cf-req-chip'),
+        card: pick('.cf-next-card'),
+        footer: pick('.footer')
+      });
+    }, 300);
+  } catch (error) {
+    out.textContent = String(error);
+  }
+};
+frame.addEventListener('load', done);
+</script>
+</body>
+</html>
