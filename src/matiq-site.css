@@ -1958,13 +1958,16 @@ body {
   }
 
   .process {
+    --process-step-gap: 48px;
+    --process-marker-size: 44px;
+    --process-line-center-offset: calc((var(--process-marker-size) / 2) - 2px);
     height: auto;
     min-height: 385px;
     padding: 52px var(--section-gutter) 60px;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     row-gap: 14px;
-    column-gap: 48px;
+    column-gap: var(--process-step-gap);
     align-items: start;
   }
 
@@ -1995,9 +1998,12 @@ body {
   .process-line {
     grid-column: 1 / -1;
     grid-row: 3;
-    width: 82%;
-    justify-self: center;
-    margin: 20px 0 -34px;
+    width: auto;
+    justify-self: stretch;
+    margin-top: calc(20px + var(--process-line-center-offset));
+    margin-right: calc((((100% - (var(--process-step-gap) * 2)) / 3) - var(--process-marker-size)) / 2);
+    margin-bottom: calc(-34px - var(--process-line-center-offset));
+    margin-left: calc((((100% - (var(--process-step-gap) * 2)) / 3) - var(--process-marker-size)) / 2);
   }
 
   .step-circle {
@@ -2836,5 +2842,11 @@ body {
   .cf-next-desc {
     margin-top: 8px;
     color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-photo {
+    display: none;
   }
 }
