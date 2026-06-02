@@ -43,6 +43,43 @@ const limits = {
 const normalizeSingleLine = (value) => String(value ?? "").replace(/\s+/g, " ").trim();
 const normalizeMultiline = (value) => String(value ?? "").replace(/\r\n/g, "\n").trim();
 
+const maskEmail = (value) => {
+  const normalizedValue = String(value ?? "").trim();
+  const parts = normalizedValue.split("@");
+
+  if (parts.length !== 2 || !parts[0] || !parts[1]) {
+    return normalizedValue;
+  }
+
+  const [localPart, domain] = parts;
+  const visibleLocalPart = localPart.length <= 2 ? `${localPart[0] || ""}*` : `${localPart.slice(0, 2)}***`;
+  return `${visibleLocalPart}@${domain}`;
+};
+
+const maskPhone = (value) => {
+  const normalizedValue = String(value ?? "").trim();
+  const digits = normalizedValue.replace(/\D/g, "");
+
+  if (!digits) {
+    return "";
+  }
+
+  const lastDigits = digits.slice(-2);
+  return `***${lastDigits}`;
+};
+
+const buildClientLogPayload = (payload) => ({
+  locale: payload.locale,
+  fullNameLength: payload.fullName.length,
+  email: maskEmail(payload.email),
+  phone: maskPhone(payload.phone),
+  companyLength: payload.company.length,
+  detailsLength: payload.details.length,
+  consent: payload.consent,
+  hasWebsiteValue: Boolean(payload.website),
+  formStartedAt: payload.formStartedAt,
+});
+
 function isPhoneValid(value) {
   const trimmedValue = String(value ?? "").trim();
 
@@ -372,6 +409,12 @@ export function initializeMatiqSite() {
     });
 
     if (firstInvalidField) {
+      const validationErrors = Object.entries(fieldMap)
+        .map(([fieldName, field]) => [fieldName, field.error.textContent])
+        .filter(([, message]) => Boolean(message));
+      console.warn("[contact-form] Client validation failed", {
+        errors: Object.fromEntries(validationErrors),
+      });
       setStatus(getCopy().reviewErrors, "error");
       firstInvalidField.focus();
       return false;
@@ -413,6 +456,8 @@ export function initializeMatiqSite() {
       return;
     }
 
+    console.warn("[contact-form] Server validation returned field errors", fieldErrors);
+
     entries.forEach(([fieldName, message]) => {
       if (fieldMap[fieldName]) {
         touchedFields.add(fieldName);
@@ -430,6 +475,10 @@ export function initializeMatiqSite() {
     event.preventDefault();
 
     if (!contactForm || isSubmitting) {
+      console.info("[contact-form] Submit ignored", {
+        hasForm: Boolean(contactForm),
+        isSubmitting,
+      });
       return;
     }
 
@@ -442,6 +491,9 @@ export function initializeMatiqSite() {
       return;
     }
 
+    const requestPayload = buildPayload();
+    console.info("[contact-form] Submitting request", buildClientLogPayload(requestPayload));
+
     setSubmitState(true);
 
     try {
@@ -451,10 +503,15 @@ export function initializeMatiqSite() {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(buildPayload()),
+        body: JSON.stringify(requestPayload),
       });
 
       const payload = await response.json().catch(() => ({}));
+      console.info("[contact-form] API response received", {
+        status: response.status,
+        ok: response.ok,
+        payload,
+      });
 
       if (!response.ok) {
         applyServerErrors(payload.fieldErrors);
@@ -462,11 +519,15 @@ export function initializeMatiqSite() {
         return;
       }
 
+      console.info("[contact-form] Request completed successfully");
       showFormSuccess();
     } catch (error) {
       console.error("Failed to submit contact form", error);
       setStatus(getCopy().sendFailed, "error");
     } finally {
+      console.info("[contact-form] Submit lifecycle finished", {
+        hasSubmittedSuccessfully,
+      });
       setSubmitState(false);
       if (!hasSubmittedSuccessfully) {
         formStartedAtInput && (formStartedAtInput.value = String(Date.now()));

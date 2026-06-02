@@ -99,6 +99,44 @@ function parseConsent(value) {
   return value === true || value === "true" || value === "yes" || value === "on";
 }
 
+function maskEmail(value) {
+  const normalizedValue = String(value ?? "").trim();
+  const parts = normalizedValue.split("@");
+
+  if (parts.length !== 2 || !parts[0] || !parts[1]) {
+    return normalizedValue;
+  }
+
+  const [localPart, domain] = parts;
+  const visibleLocalPart = localPart.length <= 2 ? `${localPart[0] || ""}*` : `${localPart.slice(0, 2)}***`;
+  return `${visibleLocalPart}@${domain}`;
+}
+
+function maskPhone(value) {
+  const normalizedValue = String(value ?? "").trim();
+  const digits = normalizedValue.replace(/\D/g, "");
+
+  if (!digits) {
+    return "";
+  }
+
+  return `***${digits.slice(-2)}`;
+}
+
+function buildServerLogPayload(clean) {
+  return {
+    locale: clean.locale,
+    fullNameLength: clean.fullName.length,
+    email: maskEmail(clean.email),
+    phone: maskPhone(clean.phone),
+    companyLength: clean.company.length,
+    detailsLength: clean.details.length,
+    consent: clean.consent,
+    hasWebsiteValue: Boolean(clean.website),
+    formStartedAt: clean.formStartedAt,
+  };
+}
+
 function validatePayload(payload) {
   const locale = parseLocale(payload?.locale);
   const messages = copy[locale];
@@ -183,6 +221,10 @@ function getTransportConfig() {
     return null;
   }
 
+  if (!process.env.CONTACT_RECIPIENT) {
+    return null;
+  }
+
   return {
     host: process.env.SMTP_HOST,
     port,
@@ -250,16 +292,23 @@ export default async function handler(req, res) {
   try {
     const rawBody = typeof req.body === "string" ? JSON.parse(req.body) : req.body ?? {};
     const { locale, messages, clean, fieldErrors } = validatePayload(rawBody);
+    console.info("[contact-api] Request received", buildServerLogPayload(clean));
 
     if (clean.website) {
+      console.warn("[contact-api] Honeypot triggered; skipping delivery");
       return res.status(200).json({ ok: true });
     }
 
     if (!clean.formStartedAt || Date.now() - clean.formStartedAt < minimumSubmitDelayMs) {
+      console.warn("[contact-api] Request rejected by minimum submit delay", {
+        formStartedAt: clean.formStartedAt,
+        receivedAt: Date.now(),
+      });
       return res.status(200).json({ ok: true });
     }
 
     if (Object.keys(fieldErrors).length > 0) {
+      console.warn("[contact-api] Validation failed", fieldErrors);
       return res.status(422).json({
         error: messages.validationSummary,
         fieldErrors,
@@ -269,8 +318,26 @@ export default async function handler(req, res) {
 
     const transportConfig = getTransportConfig();
     if (!transportConfig) {
+      console.error("[contact-api] Missing SMTP configuration", {
+        hasHost: Boolean(process.env.SMTP_HOST),
+        port: process.env.SMTP_PORT || null,
+        secure: process.env.SMTP_SECURE || null,
+        hasUser: Boolean(process.env.SMTP_USER),
+        hasPass: Boolean(process.env.SMTP_PASS),
+        hasFrom: Boolean(process.env.CONTACT_FROM),
+        hasRecipient: Boolean(process.env.CONTACT_RECIPIENT),
+      });
       return res.status(500).json({ error: messages.missingConfig });
     }
+
+    console.info("[contact-api] SMTP transport prepared", {
+      host: transportConfig.host,
+      port: transportConfig.port,
+      secure: transportConfig.secure,
+      hasAuth: Boolean(transportConfig.auth),
+      from: transportConfig.from,
+      recipient: transportConfig.recipient,
+    });
 
     const transporter = nodemailer.createTransport({
       host: transportConfig.host,
@@ -280,14 +347,25 @@ export default async function handler(req, res) {
     });
 
     const message = buildMessageBody(clean, messages, req);
+    console.info("[contact-api] Sending email", {
+      subject: message.subject,
+      replyTo: clean.email,
+    });
 
-    await transporter.sendMail({
+    const sendResult = await transporter.sendMail({
       from: transportConfig.from,
       to: transportConfig.recipient,
       replyTo: clean.email,
       subject: message.subject,
       text: message.text,
       html: message.html,
+    });
+
+    console.info("[contact-api] Email sent", {
+      messageId: sendResult.messageId,
+      accepted: sendResult.accepted,
+      rejected: sendResult.rejected,
+      response: sendResult.response,
     });
 
     return res.status(200).json({ ok: true });
