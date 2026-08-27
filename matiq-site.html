@@ -537,6 +537,10 @@
       font-size: 12px; font-weight: 400; color: #b9b9bc;
       white-space: nowrap;
     }
+    .footer-imprint {
+      color: inherit; text-decoration: underline; text-underline-offset: 2px;
+    }
+    .footer-imprint:hover { color: #7b7b7d; }
 
     /* ══════════════════════════════
        CONTACT FORM PAGE
@@ -816,27 +820,28 @@
 
 <!-- ════════════ NAV (shared) ════════════ -->
 <nav class="nav" id="nav">
-  <div class="nav-logo" onclick="showPage('landing')">
-    <img class="nav-logo-img" id="navLogoImg" src="/assets/logo-lg.svg" alt="MatIQ">
-  </div>
-
-  <!-- language switcher -->
-  <div class="lang-wrap" id="langWrap">
-    <div class="lang-pill" onclick="toggleLang()">
-      <span class="lang-label" id="langLabel">EN</span>
-      <span class="lang-chevron">
-        <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1L5.5 6L10 1" stroke="#7b7b7d" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </span>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('landing')">
+      <img class="nav-logo-img" id="navLogoImg" src="/assets/logo-lg.svg" alt="MatIQ">
     </div>
-    <div class="lang-dropdown" id="langDropdown">
-      <div class="lang-opt active" id="opt-en" onclick="setLang('en')">🇬🇧&nbsp; English</div>
-      <div class="lang-opt" id="opt-de" onclick="setLang('de')">🇩🇪&nbsp; Deutsch</div>
+    <div class="nav-actions">
+      <div class="lang-wrap" id="langWrap">
+        <div class="lang-pill" onclick="toggleLang()">
+          <span class="lang-label" id="langLabel">EN</span>
+          <span class="lang-chevron">
+            <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1L5.5 6L10 1" stroke="#7b7b7d" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </span>
+        </div>
+        <div class="lang-dropdown" id="langDropdown">
+          <div class="lang-opt active" id="opt-en" onclick="setLang('en')">🇬🇧&nbsp; English</div>
+          <div class="lang-opt" id="opt-de" onclick="setLang('de')">🇩🇪&nbsp; Deutsch</div>
+        </div>
+      </div>
+      <button type="button" class="nav-cta" onclick="showPage('contact')">
+        <span data-en="Talk to our expert" data-de="Expertin kontaktieren">Talk to our expert</span>
+      </button>
     </div>
   </div>
-
-  <div class="nav-cta-bg"></div>
-  <span class="nav-cta-text" id="navCta" data-en="Talk to Our Expert" data-de="Expertin kontaktieren">Talk to Our Expert</span>
-  <div class="nav-cta-link" onclick="showPage('contact')"></div>
 </nav>
 
 <!-- ════════════════════════════════════════
@@ -846,30 +851,32 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-photo"></div>
-    <div class="hero-divider-r"></div>
-    <div class="hero-content">
-      <div class="hero-top">
-        <div class="hero-texts">
-          <p class="hero-eyebrow" data-en="MATERIAL DATA FOR PROCESSING SIMULATIONS" data-de="MATERIALDATEN FÜR VERARBEITUNGSSIMULATIONEN">MATERIAL DATA FOR PROCESSING SIMULATIONS</p>
-          <p class="hero-h1" data-en-html="Reliable material data, <span class='teal'>without compromise</span>" data-de-html="Zuverlässige Materialdaten, <span class='teal'>ohne Kompromisse</span>">Reliable material data, <span class="teal">without compromise</span></p>
-        </div>
-        <p class="hero-lead" data-en="High-precision material properties for injection molding and extrusion simulations — delivered as structured, ready-to-use datasets. No reports. No overhead. Just data you can trust." data-de="Hochpräzise Materialeigenschaften für Spritzguss- und Extrusionssimulationen — als strukturierte, sofort einsetzbare Datensätze. Keine Berichte. Kein Overhead. Nur Daten, auf die Sie vertrauen können.">High-precision material properties for injection molding and extrusion simulations — delivered as structured, ready-to-use datasets. No reports. No overhead. Just data you can trust.</p>
-        <div class="hero-cta-wrap">
-          <div class="hero-btn" onclick="showPage('contact')">
-            <div class="hero-btn-bg"></div>
-            <span class="hero-btn-text" data-en="Talk to Our Expert  →" data-de="Expertin kontaktieren  →">Talk to Our Expert  →</span>
-          </div>
-          <span class="hero-note" data-en="No preparation needed — we'll walk you through everything." data-de="Keine Vorbereitung nötig — wir führen Sie durch alles.">No preparation needed — we'll walk you through everything.</span>
-        </div>
+    <div class="section-inner hero-inner">
+      <p class="eyebrow" data-en="MATERIAL DATA FOR PROCESSING SIMULATIONS" data-de="MATERIALDATEN FÜR VERARBEITUNGSSIMULATIONEN">MATERIAL DATA FOR PROCESSING SIMULATIONS</p>
+      <h1 class="hero-h1" data-en="Reliable material data, without compromise." data-de="Zuverlässige Materialdaten, ohne Kompromisse.">Reliable material data, without compromise.</h1>
+      <p class="hero-lead" data-en="High-precision material properties for injection molding and extrusion simulations — delivered as structured, ready-to-use datasets. No reports. No overhead. Just data you can trust." data-de="Hochpräzise Materialeigenschaften für Spritzguss- und Extrusionssimulationen — als strukturierte, sofort einsetzbare Datensätze. Keine Berichte. Kein Overhead. Nur Daten, auf die Sie vertrauen können.">High-precision material properties for injection molding and extrusion simulations — delivered as structured, ready-to-use datasets. No reports. No overhead. Just data you can trust.</p>
+      <div class="hero-cta-wrap">
+        <button type="button" class="btn-primary" onclick="showPage('contact')">
+          <span data-en="Talk to our expert" data-de="Expertin kontaktieren">Talk to our expert</span>
+        </button>
+        <p class="hero-note" data-en="No preparation needed — we'll walk you through everything." data-de="Keine Vorbereitung nötig — wir führen Sie durch alles.">No preparation needed — we'll walk you through everything.</p>
       </div>
-      <div class="hero-kpis-wrap">
-        <div class="hero-kpis-line"></div>
-        <div class="hero-kpis-row">
-          <div><span class="kpi-val">€4K</span><span class="kpi-lbl" data-en="PER DATASET" data-de="PRO DATENSATZ">PER DATASET</span></div>
-          <div><span class="kpi-val">~8 wk</span><span class="kpi-lbl" data-en="LEAD TIME" data-de="LIEFERZEIT">LEAD TIME</span></div>
-          <div><span class="kpi-val">CSV</span><span class="kpi-lbl" data-en="STRUCTURED FORMAT" data-de="STRUKTURIERT">STRUCTURED FORMAT</span></div>
-          <div><span class="kpi-val">20+</span><span class="kpi-lbl" data-en="YEARS EXPERTISE" data-de="JAHRE ERFAHRUNG">YEARS EXPERTISE</span></div>
+      <div class="hero-kpis">
+        <div class="kpi">
+          <span class="kpi-val">€4K</span>
+          <span class="kpi-lbl" data-en="PER DATASET" data-de="PRO DATENSATZ">PER DATASET</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-val">~8 wk</span>
+          <span class="kpi-lbl" data-en="LEAD TIME" data-de="LIEFERZEIT">LEAD TIME</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-val">CSV</span>
+          <span class="kpi-lbl" data-en="STRUCTURED FORMAT" data-de="STRUKTURIERT">STRUCTURED FORMAT</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-val">20+</span>
+          <span class="kpi-lbl" data-en="YEARS EXPERTISE" data-de="JAHRE ERFAHRUNG">YEARS EXPERTISE</span>
         </div>
       </div>
     </div>
@@ -877,123 +884,131 @@
 
   <!-- PROBLEM -->
   <section class="problem reveal">
-    <p class="problem-chip" data-en="THE PROBLEM" data-de="DAS PROBLEM">THE PROBLEM</p>
-    <div class="problem-head" data-en-html="Simulation accuracy<br>starts with data quality." data-de-html="Simulationsgenauigkeit<br>beginnt mit Datenqualität.">Simulation accuracy<br>starts with data quality.</div>
-    <div class="problem-body reveal d1">
-      <p data-en="Most material databases rely on single-point measurements that fail to capture real processing conditions. When viscosity, pvT behavior, and thermal properties are incomplete or inconsistently generated, simulation models fall short — regardless of how powerful the software is." data-de="Die meisten Materialdatenbanken verwenden Einzelpunktmessungen, die reale Verarbeitungsbedingungen nicht abbilden. Wenn Viskosität, pvT-Verhalten und thermische Eigenschaften unvollständig sind, versagen Simulationsmodelle — unabhängig von der Software.">Most material databases rely on single-point measurements that fail to capture real processing conditions. When viscosity, pvT behavior, and thermal properties are incomplete or inconsistently generated, simulation models fall short — regardless of how powerful the software is.</p>
-      <p data-en="The gap isn't in the simulation tool. It's in the data behind it." data-de="Das Problem liegt nicht im Simulationstool. Es liegt in den Daten dahinter.">The gap isn't in the simulation tool. It's in the data behind it.</p>
+    <div class="section-inner problem-inner">
+      <div class="problem-left">
+        <p class="eyebrow eyebrow--on-dark" data-en="THE PROBLEM" data-de="DAS PROBLEM">THE PROBLEM</p>
+        <h2 class="problem-head" data-en-html="Simulation accuracy starts with data quality." data-de-html="Simulationsgenauigkeit beginnt mit Datenqualität.">Simulation accuracy starts with data quality.</h2>
+      </div>
+      <div class="problem-body reveal d1">
+        <p data-en="Most material databases rely on single-point measurements that fail to capture real processing conditions. When viscosity, pvT behavior, and thermal properties are incomplete or inconsistently generated, simulation models fall short — regardless of how powerful the software is." data-de="Die meisten Materialdatenbanken verwenden Einzelpunktmessungen, die reale Verarbeitungsbedingungen nicht abbilden. Wenn Viskosität, pvT-Verhalten und thermische Eigenschaften unvollständig sind, versagen Simulationsmodelle — unabhängig von der Software.">Most material databases rely on single-point measurements that fail to capture real processing conditions. When viscosity, pvT behavior, and thermal properties are incomplete or inconsistently generated, simulation models fall short — regardless of how powerful the software is.</p>
+        <p class="problem-emphasis" data-en="The gap isn't in the simulation tool. It's in the data behind it." data-de="Das Problem liegt nicht im Simulationstool. Es liegt in den Daten dahinter.">The gap isn't in the simulation tool. It's in the data behind it.</p>
+      </div>
     </div>
   </section>
 
   <!-- PILLARS -->
   <section class="pillars">
-    <p class="pillars-chip reveal" data-en="OUR APPROACH" data-de="UNSER ANSATZ">OUR APPROACH</p>
-    <p class="pillars-title reveal d1" data-en="Standardized. Structured. Simple to use in Simulation" data-de="Standardisiert. Strukturiert. Einfach in Simulationen.">Standardized. Structured. Simple to use in Simulation</p>
-    <p class="pillars-sub reveal d2" data-en="Every dataset is generated through a controlled experimental workflow — reproducible, rigorous, and delivered without the overhead of consulting reports." data-de="Jeder Datensatz wird durch einen kontrollierten experimentellen Workflow erstellt — reproduzierbar, rigoros und ohne den Overhead von Beratungsberichten.">Every dataset is generated through a controlled experimental workflow — reproducible, rigorous, and delivered without the overhead of consulting reports.</p>
+    <div class="section-inner">
+      <p class="eyebrow reveal" data-en="OUR APPROACH" data-de="UNSER ANSATZ">OUR APPROACH</p>
+      <h2 class="pillars-title reveal d1" data-en="Standardized. Structured. Simple to use in Simulation." data-de="Standardisiert. Strukturiert. Einfach in Simulationen.">Standardized. Structured. Simple to use in Simulation.</h2>
+      <p class="pillars-sub reveal d2" data-en="Every dataset is generated through a controlled experimental workflow — reproducible, rigorous, and delivered without the overhead of consulting reports." data-de="Jeder Datensatz wird durch einen kontrollierten experimentellen Workflow erstellt — reproduzierbar, rigoros und ohne den Overhead von Beratungsberichten.">Every dataset is generated through a controlled experimental workflow — reproducible, rigorous, and delivered without the overhead of consulting reports.</p>
 
-    <div class="card card-1 reveal d1">
-      <div class="card-bar"></div>
-      <div class="card-icon-bg"></div>
-      <div class="card-icon"><img src="/assets/icon-1.svg" alt=""></div>
-      <p class="card-title" data-en="High Precision" data-de="Hohe Präzision">High Precision</p>
-      <p class="card-copy" data-en="Multi-point measurements across relevant temperature and pressure conditions. Consistent. Reproducible. Purpose-built for simulation accuracy." data-de="Mehrpunktmessungen über relevante Temperatur- und Druckbedingungen. Konsistent. Reproduzierbar. Für Simulationsgenauigkeit optimiert.">Multi-point measurements across relevant temperature and pressure conditions. Consistent. Reproducible. Purpose-built for simulation accuracy.</p>
-    </div>
-    <div class="card card-2 reveal d2">
-      <div class="card-bar"></div>
-      <div class="card-icon-bg"></div>
-      <div class="card-icon"><img src="/assets/icon-2.svg" alt=""></div>
-      <p class="card-title" data-en="Built for Simulation" data-de="Für Simulation entwickelt">Built for Simulation</p>
-      <p class="card-copy" data-en="Optimized for injection molding and extrusion. Data is ready to be integrated directly into your simulation environment." data-de="Optimiert für Spritzguss und Extrusion. Daten lassen sich direkt in Ihre Simulationsumgebung integrieren.">Optimized for injection molding and extrusion. Data is ready to be integrated directly into your simulation environment.</p>
-    </div>
-    <div class="card card-3 reveal d3">
-      <div class="card-bar"></div>
-      <div class="card-icon-bg"></div>
-      <div class="card-icon"><img src="/assets/icon-3.svg" alt=""></div>
-      <p class="card-title" data-en="Structured Data" data-de="Strukturierte Daten">Structured Data</p>
-      <p class="card-copy" data-en="Clean, ready-to-use datasets in CSV format. No PDFs, no interpretation layers required — just data." data-de="Saubere, sofort einsetzbare Datensätze im CSV-Format. Keine PDFs, keine Interpretationsschichten — nur Daten.">Clean, ready-to-use datasets in CSV format. No PDFs, no interpretation layers required — just data.</p>
-    </div>
-    <div class="card card-4 reveal d4">
-      <div class="card-bar"></div>
-      <div class="card-icon-bg"></div>
-      <div class="card-icon"><img src="/assets/icon-4.svg" alt=""></div>
-      <p class="card-title" data-en="Accessible Pricing" data-de="Zugängliche Preisgestaltung">Accessible Pricing</p>
-      <p class="card-copy" data-en="~€4,000 per dataset. Standardization removes the overhead — not the quality. Price reflects lean delivery, not corner-cutting." data-de="~€4.000 pro Datensatz. Standardisierung beseitigt den Overhead — nicht die Qualität. Der Preis spiegelt schlanke Lieferung wider.">~€4,000 per dataset. Standardization removes the overhead — not the quality. Price reflects lean delivery, not corner-cutting.</p>
+      <div class="pillars-grid">
+        <article class="card reveal d1">
+          <div class="card-icon"><img src="/assets/icon-1.svg" alt=""></div>
+          <h3 class="card-title" data-en="High Precision" data-de="Hohe Präzision">High Precision</h3>
+          <p class="card-copy" data-en="Multi-point measurements across relevant temperature and pressure conditions. Consistent. Reproducible. Purpose-built for simulation accuracy." data-de="Mehrpunktmessungen über relevante Temperatur- und Druckbedingungen. Konsistent. Reproduzierbar. Für Simulationsgenauigkeit optimiert.">Multi-point measurements across relevant temperature and pressure conditions. Consistent. Reproducible. Purpose-built for simulation accuracy.</p>
+        </article>
+        <article class="card reveal d2">
+          <div class="card-icon"><img src="/assets/icon-2.svg" alt=""></div>
+          <h3 class="card-title" data-en="Built for Simulation" data-de="Für Simulation entwickelt">Built for Simulation</h3>
+          <p class="card-copy" data-en="Optimized for injection molding and extrusion. Data is ready to be integrated directly into your simulation environment." data-de="Optimiert für Spritzguss und Extrusion. Daten lassen sich direkt in Ihre Simulationsumgebung integrieren.">Optimized for injection molding and extrusion. Data is ready to be integrated directly into your simulation environment.</p>
+        </article>
+        <article class="card reveal d3">
+          <div class="card-icon"><img src="/assets/icon-3.svg" alt=""></div>
+          <h3 class="card-title" data-en="Structured Data" data-de="Strukturierte Daten">Structured Data</h3>
+          <p class="card-copy" data-en="Clean, ready-to-use datasets in CSV format. No PDFs, no interpretation layers required — just data." data-de="Saubere, sofort einsetzbare Datensätze im CSV-Format. Keine PDFs, keine Interpretationsschichten — nur Daten.">Clean, ready-to-use datasets in CSV format. No PDFs, no interpretation layers required — just data.</p>
+        </article>
+        <article class="card reveal d4">
+          <div class="card-icon"><img src="/assets/icon-4.svg" alt=""></div>
+          <h3 class="card-title" data-en="Accessible Pricing" data-de="Zugängliche Preisgestaltung">Accessible Pricing</h3>
+          <p class="card-copy" data-en="~€4,000 per dataset. Standardization removes the overhead — not the quality. Price reflects lean delivery, not corner-cutting." data-de="~€4.000 pro Datensatz. Standardisierung beseitigt den Overhead — nicht die Qualität. Der Preis spiegelt schlanke Lieferung wider.">~€4,000 per dataset. Standardization removes the overhead — not the quality. Price reflects lean delivery, not corner-cutting.</p>
+        </article>
+      </div>
     </div>
   </section>
 
   <!-- PROCESS -->
   <section class="process">
-    <p class="process-chip reveal" data-en="HOW IT WORKS" data-de="SO FUNKTIONIERT ES">HOW IT WORKS</p>
-    <p class="process-title reveal d1" data-en="From material to data in ~8 weeks." data-de="Vom Material zu Daten in ~8 Wochen.">From material to data in ~8 weeks.</p>
-    <div class="process-line reveal d2"></div>
+    <div class="section-inner">
+      <p class="eyebrow reveal" data-en="HOW IT WORKS" data-de="SO FUNKTIONIERT ES">HOW IT WORKS</p>
+      <h2 class="process-title reveal d1" data-en="From material to simulation-ready data in ~8 weeks." data-de="Vom Material zu simulationsfertigen Daten in ~8 Wochen.">From material to simulation-ready data in ~8 weeks.</h2>
 
-    <div class="step-circle step-circle-1 reveal d1"></div>
-    <p class="step-num step-num-1 reveal d1">01</p>
-    <p class="step-title step-title-1 reveal d1" data-en="Preparation" data-de="Vorbereitung">Preparation</p>
-    <p class="step-copy step-copy-1 reveal d1" data-en="Specimen preparation per test method ensures controlled, reproducible starting conditions for every measurement." data-de="Probenvorbereitung nach Prüfmethode gewährleistet kontrollierte, reproduzierbare Ausgangsbedingungen für jede Messung.">Specimen preparation per test method ensures controlled, reproducible starting conditions for every measurement.</p>
-
-    <div class="step-circle step-circle-2 reveal d2"></div>
-    <p class="step-num step-num-2 reveal d2">02</p>
-    <p class="step-title step-title-2 reveal d2" data-en="Controlled Measurement" data-de="Kontrollierte Messung">Controlled Measurement</p>
-    <p class="step-copy step-copy-2 reveal d2" data-en="Multi-point measurements — rheology, pvT, and thermal properties — under rigorous experimental protocols." data-de="Mehrpunktmessungen — Rheologie, pvT und thermische Eigenschaften — nach strengen experimentellen Protokollen.">Multi-point measurements — rheology, pvT, and thermal properties — under rigorous experimental protocols.</p>
-
-    <div class="step-circle step-circle-3 reveal d3"></div>
-    <p class="step-num step-num-3 reveal d3">03</p>
-    <p class="step-title step-title-3 reveal d3" data-en="Validation &amp; Delivery" data-de="Validierung &amp; Lieferung">Validation &amp; Delivery</p>
-    <p class="step-copy step-copy-3 reveal d3" data-en="Data validated and structured into clean CSV datasets, ready to integrate directly into your simulation workflow." data-de="Daten werden validiert und in saubere CSV-Datensätze strukturiert, bereit zur direkten Integration in Ihren Simulations-Workflow.">Data validated and structured into clean CSV datasets, ready to integrate directly into your simulation workflow.</p>
+      <div class="process-steps reveal d2">
+        <article class="step">
+          <div class="step-num">01</div>
+          <h3 class="step-title" data-en="Preparation" data-de="Vorbereitung">Preparation</h3>
+          <p class="step-copy" data-en="Specimen preparation per test method ensures controlled, reproducible starting conditions for every measurement." data-de="Probenvorbereitung nach Prüfmethode gewährleistet kontrollierte, reproduzierbare Ausgangsbedingungen für jede Messung.">Specimen preparation per test method ensures controlled, reproducible starting conditions for every measurement.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">02</div>
+          <h3 class="step-title" data-en="Controlled Measurement" data-de="Kontrollierte Messung">Controlled Measurement</h3>
+          <p class="step-copy" data-en="Multi-point measurements — rheology, pvT, and thermal properties — under rigorous experimental protocols." data-de="Mehrpunktmessungen — Rheologie, pvT und thermische Eigenschaften — nach strengen experimentellen Protokollen.">Multi-point measurements — rheology, pvT, and thermal properties — under rigorous experimental protocols.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">03</div>
+          <h3 class="step-title" data-en="Validation &amp; Delivery" data-de="Validierung &amp; Lieferung">Validation &amp; Delivery</h3>
+          <p class="step-copy" data-en="Data validated and structured into clean CSV datasets, ready to integrate directly into your simulation workflow." data-de="Daten werden validiert und in saubere CSV-Datensätze strukturiert, bereit zur direkten Integration in Ihren Simulations-Workflow.">Data validated and structured into clean CSV datasets, ready to integrate directly into your simulation workflow.</p>
+        </article>
+      </div>
+    </div>
   </section>
 
   <!-- EXPERT -->
   <section class="expert">
-    <div class="expert-bg"></div>
-    <div class="expert-border"></div>
-    <div class="expert-inner">
+    <div class="section-inner expert-grid">
       <div class="bio reveal">
-        <div class="bio-avatar"></div>
+        <div class="bio-avatar" role="img" aria-label="Dr. Natalie Rudolph"></div>
         <p class="bio-name">Dr. Natalie Rudolph</p>
         <p class="bio-role" data-en="SENIOR MATERIAL EXPERT · NETZSCH GROUP" data-de="SENIOR MATERIAL EXPERTIN · NETZSCH GROUP">SENIOR MATERIAL EXPERT · NETZSCH GROUP</p>
-        <p class="bio-copy" data-en="Dr. Natalie Rudolph is an expert in polymer processing, material characterization, and simulation. Her work focuses on generating high-quality material data through rigorous experimental methods, with particular expertise in rheology, pvT behavior, and thermal analysis.<br><br>Her experience spans academia and industry, including roles at Fraunhofer IGCV, the University of Wisconsin–Madison, and AREVO Inc., and she is co-author of several key publications on polymer rheology, plastics recycling, and material characterization." data-de="Dr. Natalie Rudolph ist Expertin für Polymerverarbeitung, Materialcharakterisierung und Simulation. Ihr Fokus liegt auf der Erzeugung hochwertiger Materialdaten durch strenge experimentelle Methoden, mit besonderer Expertise in Rheologie, pvT-Verhalten und thermischer Analyse.<br><br>Ihre Erfahrung umfasst Wissenschaft und Industrie, darunter Positionen am Fraunhofer IGCV, der University of Wisconsin–Madison und AREVO Inc.">Dr. Natalie Rudolph is an expert in polymer processing, material characterization, and simulation. Her work focuses on generating high-quality material data through rigorous experimental methods, with particular expertise in rheology, pvT behavior, and thermal analysis.<br><br>Her experience spans academia and industry, including roles at Fraunhofer IGCV, the University of Wisconsin–Madison, and AREVO Inc., and she is co-author of several key publications on polymer rheology, plastics recycling, and material characterization.</p>
+        <p class="bio-copy" data-en-html="Dr. Natalie Rudolph is an expert in polymer processing, material characterization, and simulation. Her work focuses on generating high-quality material data through rigorous experimental methods, with particular expertise in rheology, pvT behavior, and thermal analysis.<br><br>Her experience spans academia and industry, including roles at Fraunhofer IGCV, the University of Wisconsin–Madison, and AREVO Inc., and she is co-author of several key publications on polymer rheology, plastics recycling, and material characterization." data-de-html="Dr. Natalie Rudolph ist Expertin für Polymerverarbeitung, Materialcharakterisierung und Simulation. Ihr Fokus liegt auf der Erzeugung hochwertiger Materialdaten durch strenge experimentelle Methoden, mit besonderer Expertise in Rheologie, pvT-Verhalten und thermischer Analyse.<br><br>Ihre Erfahrung umfasst Wissenschaft und Industrie, darunter Positionen am Fraunhofer IGCV, der University of Wisconsin–Madison und AREVO Inc.">Dr. Natalie Rudolph is an expert in polymer processing, material characterization, and simulation. Her work focuses on generating high-quality material data through rigorous experimental methods, with particular expertise in rheology, pvT behavior, and thermal analysis.<br><br>Her experience spans academia and industry, including roles at Fraunhofer IGCV, the University of Wisconsin–Madison, and AREVO Inc., and she is co-author of several key publications on polymer rheology, plastics recycling, and material characterization.</p>
       </div>
       <div class="quote reveal d2">
-        <p class="quote-mark">"</p>
+        <p class="quote-mark" aria-hidden="true">"</p>
         <p class="quote-text" data-en-html='Not all material data is created equal. The measurement method and conditions matter — and in many real-world applications, <strong>multi-point data leads to significantly better results</strong> than single-point data.' data-de-html='Nicht alle Materialdaten sind gleich. Die Messmethode und -bedingungen sind entscheidend — und in vielen Anwendungen führen <strong>Mehrpunktdaten zu deutlich besseren Ergebnissen</strong> als Einzelpunktdaten.'>Not all material data is created equal. The measurement method and conditions matter — and in many real-world applications, <strong>multi-point data leads to significantly better results</strong> than single-point data.</p>
-        <p class="quote-attr">Dr. Natalie Rudolph</p>
+        <p class="quote-attr">— Dr. Natalie Rudolph</p>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- CONTACT CTA -->
   <section class="contact" id="cta">
-    <p class="contact-chip reveal" data-en="GET IN TOUCH" data-de="KONTAKT">GET IN TOUCH</p>
-    <div class="contact-title reveal d1" data-en-html="<p>Learn more about our approach</p><p>to high-quality material data.</p>" data-de-html="<p>Erfahren Sie mehr über unseren Ansatz</p><p>für hochwertige Materialdaten.</p>"><p>Learn more about our approach</p><p>to high-quality material data.</p></div>
-    <p class="contact-sub reveal d2" data-en="In a short call, we can walk you through the scope of measurements, our data generation process, lead times, and transparent pricing." data-de="In einem kurzen Gespräch führen wir Sie durch den Messumfang, unseren Datenerzeugungsprozess, Lieferzeiten und transparente Preise.">In a short call, we can walk you through the scope of measurements, our data generation process, lead times, and transparent pricing.</p>
-    <div class="contact-box reveal d2">
-      <div class="contact-box-inner">
-        <div class="contact-points">
-          <div class="contact-col">
-            <p class="contact-item"><span class="arr">→</span>&nbsp; <span data-en="Scope of measurements" data-de="Umfang der Messungen">Scope of measurements</span></p>
-            <p class="contact-item"><span class="arr">→</span>&nbsp; <span data-en="Data generation process and lead times" data-de="Datenerzeugungsprozess und Lieferzeiten">Data generation process and lead times</span></p>
-          </div>
-          <div class="contact-col">
-            <p class="contact-item"><span class="arr">→</span>&nbsp; <span data-en="Integration into your simulation workflows" data-de="Integration in Ihre Simulations-Workflows">Integration into your simulation workflows</span></p>
-            <p class="contact-item"><span class="arr">→</span>&nbsp; <span data-en="Transparent pricing and available data packages" data-de="Transparente Preise und verfügbare Datenpakete">Transparent pricing and available data packages</span></p>
-          </div>
-        </div>
-        <div class="contact-btn" onclick="showPage('contact')">
-          <div class="contact-btn-bg"></div>
-          <span class="contact-btn-text" data-en="Request Information  →" data-de="Informationen anfordern  →">Request Information  →</span>
-        </div>
+    <div class="section-inner contact-inner">
+      <p class="eyebrow eyebrow--on-dark reveal" data-en="GET IN TOUCH" data-de="KONTAKT">GET IN TOUCH</p>
+      <h2 class="contact-title reveal d1" data-en="Learn more about our approach to high-quality material data." data-de="Erfahren Sie mehr über unseren Ansatz für hochwertige Materialdaten.">Learn more about our approach to high-quality material data.</h2>
+      <p class="contact-sub reveal d2" data-en="In a short call, we can walk you through the scope of measurements, our data generation process, lead times, and transparent pricing." data-de="In einem kurzen Gespräch führen wir Sie durch den Messumfang, unseren Datenerzeugungsprozess, Lieferzeiten und transparente Preise.">In a short call, we can walk you through the scope of measurements, our data generation process, lead times, and transparent pricing.</p>
+
+      <div class="contact-box reveal d2">
+        <ul class="contact-points">
+          <li class="contact-item">
+            <span class="contact-check" aria-hidden="true"></span>
+            <span data-en="Scope of measurements" data-de="Umfang der Messungen">Scope of measurements</span>
+          </li>
+          <li class="contact-item">
+            <span class="contact-check" aria-hidden="true"></span>
+            <span data-en="Data generation process and lead times" data-de="Datenerzeugungsprozess und Lieferzeiten">Data generation process and lead times</span>
+          </li>
+          <li class="contact-item">
+            <span class="contact-check" aria-hidden="true"></span>
+            <span data-en="Integration into your simulation workflows" data-de="Integration in Ihre Simulations-Workflows">Integration into your simulation workflows</span>
+          </li>
+          <li class="contact-item">
+            <span class="contact-check" aria-hidden="true"></span>
+            <span data-en="Transparent pricing and available data packages" data-de="Transparente Preise und verfügbare Datenpakete">Transparent pricing and available data packages</span>
+          </li>
+        </ul>
+        <button type="button" class="btn-secondary" onclick="showPage('contact')">
+          <span data-en="Request information" data-de="Informationen anfordern">Request information</span>
+        </button>
       </div>
     </div>
-    <p class="contact-note reveal" data-en="No preparation needed — we'll walk you through everything." data-de="Keine Vorbereitung nötig — wir führen Sie durch alles.">No preparation needed — we'll walk you through everything.</p>
   </section>
 
   <footer class="footer">
-    <div class="footer-left">
+    <div class="section-inner footer-inner">
       <div class="footer-logo"><img src="/assets/logo-sm.svg" alt="MatIQ"></div>
-      <span class="footer-brand-sub">A <b>NETZSCH PROVEN</b> EXCELLENCE MATERIAL MEASUREMENT</span>
+      <p class="footer-copy">© 2026 MatIQ · Netzsch Group · All rights reserved · <a class="footer-imprint" href="https://nedgex.com/imprint/" target="_blank" rel="noopener noreferrer" data-en="Imprint" data-de="Impressum">Imprint</a></p>
     </div>
-    <p class="footer-copy">© 2026 MatIQ · Netzsch Group · All rights reserved</p>
   </footer>
 </div>
 
@@ -1002,71 +1017,70 @@
 ════════════════════════════════════════ -->
 <div class="page" id="page-contact" style="padding-top:76px">
 
-  <!-- TEAL HEADER -->
-  <div class="cf-header">
-    <p class="cf-header-chip" data-en="GET IN TOUCH" data-de="KONTAKT AUFNEHMEN">GET IN TOUCH</p>
-    <p class="cf-header-title" data-en="Contact Our Expert" data-de="Unsere Expertin kontaktieren">Contact Our Expert</p>
-    <p class="cf-header-sub" data-en="No preparation needed — we'll walk you through everything." data-de="Keine Vorbereitung nötig — wir führen Sie durch alles.">No preparation needed — we'll walk you through everything.</p>
-    <div class="cf-header-line"></div>
-  </div>
-
-  <!-- CONTENT -->
-  <div class="cf-content">
-    <div class="cf-left-bg"></div>
-    <div class="cf-divider-v"></div>
-
-    <!-- LEFT: context -->
-    <p class="cf-chip cf-what-chip" data-en="WHAT TO EXPECT" data-de="WAS SIE ERWARTET">WHAT TO EXPECT</p>
-    <div class="cf-what-title" data-en-html="In a short call,<br>we'll walk you through:" data-de-html="In einem kurzen Gespräch<br>führen wir Sie durch:">In a short call,<br>we'll walk you through:</div>
-    <div class="cf-bullets">
-      <div class="cf-bullet"><div class="cf-bullet-dot"></div><p class="cf-bullet-text" data-en="Scope of measurements" data-de="Umfang der Messungen">Scope of measurements</p></div>
-      <div class="cf-bullet"><div class="cf-bullet-dot"></div><p class="cf-bullet-text" data-en="Data generation process and lead times" data-de="Datenerzeugungsprozess und Lieferzeiten">Data generation process and lead times</p></div>
-      <div class="cf-bullet"><div class="cf-bullet-dot"></div><p class="cf-bullet-text" data-en="Integration into your simulation workflows" data-de="Integration in Ihre Simulations-Workflows">Integration into your simulation workflows</p></div>
-      <div class="cf-bullet"><div class="cf-bullet-dot"></div><p class="cf-bullet-text" data-en="Transparent pricing and available data packages" data-de="Transparente Preise und verfügbare Datenpakete">Transparent pricing and available data packages</p></div>
+  <header class="cf-header">
+    <div class="section-inner cf-header-inner">
+      <p class="eyebrow eyebrow--on-dark" data-en="GET IN TOUCH" data-de="KONTAKT AUFNEHMEN">GET IN TOUCH</p>
+      <h1 class="cf-header-title" data-en="Contact Our Expert" data-de="Unsere Expertin kontaktieren">Contact Our Expert</h1>
+      <p class="cf-header-sub" data-en="No preparation needed — we'll walk you through everything." data-de="Keine Vorbereitung nötig — wir führen Sie durch alles.">No preparation needed — we'll walk you through everything.</p>
     </div>
-    <div class="cf-divider-h"></div>
-    <p class="cf-chip cf-contact-chip" data-en="YOUR POINT OF CONTACT" data-de="IHRE ANSPRECHPARTNERIN">YOUR POINT OF CONTACT</p>
-    <div class="cf-avatar"></div>
-    <p class="cf-expert-name">Dr. Natalie Rudolph</p>
-    <p class="cf-expert-role" data-en="Senior Material Expert" data-de="Senior Material Expertin">Senior Material Expert</p>
-    <a class="cf-email" href="mailto:Natalie.Rudolph@netzsch.com">Natalie.Rudolph@netzsch.com</a>
-    <div class="cf-quote-card">
-      <p class="cf-quote-mark">"</p>
-      <p class="cf-quote-text" data-en="Not all material data is created equal. The measurement method and conditions matter." data-de="Nicht alle Materialdaten sind gleich. Die Messmethode und Bedingungen sind entscheidend.">Not all material data is created equal. The measurement method and conditions matter.</p>
-      <p class="cf-quote-attr" data-en="— Dr. Natalie Rudolph" data-de="— Dr. Natalie Rudolph">— Dr. Natalie Rudolph</p>
-    </div>
+  </header>
 
-    <!-- RIGHT: form -->
-    <div class="cf-side-right">
-      <p class="cf-chip cf-req-chip" data-en="YOUR REQUEST" data-de="IHRE ANFRAGE">YOUR REQUEST</p>
-      <p class="cf-form-title" data-en="Tell us about your project" data-de="Erzählen Sie uns von Ihrem Projekt">Tell us about your project</p>
-      <p class="cf-form-sub" data-en="Fill in the form and we'll be in touch within 1–2 business days." data-de="Füllen Sie das Formular aus — wir melden uns innerhalb von 1–2 Werktagen.">Fill in the form and we'll be in touch within 1–2 business days.</p>
+  <div class="cf-main">
+    <div class="section-inner cf-layout">
 
-      <!-- success state -->
-      <div class="cf-success" id="cfSuccess" role="status" aria-live="polite">
-        <div class="cf-success-icon">✅</div>
-        <h3 data-en="Request sent!" data-de="Anfrage gesendet!">Request sent!</h3>
-        <p data-en="Thank you. Dr. Rudolph will be in touch within 1–2 business days." data-de="Vielen Dank. Dr. Rudolph meldet sich innerhalb von 1–2 Werktagen.">Thank you. Dr. Rudolph will be in touch within 1–2 business days.</p>
-      </div>
+      <aside class="cf-aside">
+        <h2 class="cf-what-title" data-en-html="In a short call, we'll walk you through:" data-de-html="In einem kurzen Gespräch führen wir Sie durch:">In a short call, we'll walk you through:</h2>
+        <ul class="cf-bullets">
+          <li class="cf-bullet"><span class="cf-bullet-arr" aria-hidden="true">→</span><span data-en="Scope of measurements" data-de="Umfang der Messungen">Scope of measurements</span></li>
+          <li class="cf-bullet"><span class="cf-bullet-arr" aria-hidden="true">→</span><span data-en="Data generation process and lead times" data-de="Datenerzeugungsprozess und Lieferzeiten">Data generation process and lead times</span></li>
+          <li class="cf-bullet"><span class="cf-bullet-arr" aria-hidden="true">→</span><span data-en="Integration into your simulation workflows" data-de="Integration in Ihre Simulations-Workflows">Integration into your simulation workflows</span></li>
+          <li class="cf-bullet"><span class="cf-bullet-arr" aria-hidden="true">→</span><span data-en="Transparent pricing and available data packages" data-de="Transparente Preise und verfügbare Datenpakete">Transparent pricing and available data packages</span></li>
+        </ul>
 
-      <form class="cf-form-grid" id="contactForm" novalidate>
-        <input type="hidden" name="formStartedAt" id="cfFormStartedAt" value="">
-        <input
-          class="cf-honeypot"
-          type="text"
-          name="website"
-          id="cfWebsite"
-          tabindex="-1"
-          autocomplete="off"
-          aria-hidden="true"
-        >
+        <div class="cf-poc">
+          <p class="eyebrow" data-en="YOUR POINT OF CONTACT" data-de="IHRE ANSPRECHPARTNERIN">YOUR POINT OF CONTACT</p>
+          <div class="cf-poc-row">
+            <div class="cf-avatar" role="img" aria-label="Dr. Natalie Rudolph"></div>
+            <div class="cf-poc-meta">
+              <p class="cf-expert-name">Dr. Natalie Rudolph</p>
+              <p class="cf-expert-role" data-en="Senior Material Expert · NETZSCH" data-de="Senior Material Expertin · NETZSCH">Senior Material Expert · NETZSCH</p>
+              <a class="cf-email" href="mailto:Natalie.Rudolph@netzsch.com">Natalie.Rudolph@netzsch.com</a>
+            </div>
+          </div>
+          <blockquote class="cf-quote-card">
+            <p class="cf-quote-text" data-en="Not all material data is created equal. The measurement method and conditions matter." data-de="Nicht alle Materialdaten sind gleich. Die Messmethode und Bedingungen sind entscheidend.">Not all material data is created equal. The measurement method and conditions matter.</p>
+            <cite class="cf-quote-attr">— Dr. Natalie Rudolph</cite>
+          </blockquote>
+        </div>
+      </aside>
 
-        <!-- FULL NAME -->
-        <div class="cf-field cf-field-full" data-field="fullName">
-          <label class="cf-label" for="cfFullName" data-en="Full Name *" data-de="Vollständiger Name *">Full Name *</label>
-          <div class="cf-input-bg">
+      <section class="cf-form-panel">
+        <p class="eyebrow" data-en="YOUR REQUEST" data-de="IHRE ANFRAGE">YOUR REQUEST</p>
+        <h2 class="cf-form-title" data-en="Tell us about your project" data-de="Erzählen Sie uns von Ihrem Projekt">Tell us about your project</h2>
+        <p class="cf-form-sub" data-en="Fill in the form and we'll be in touch within 1–2 business days." data-de="Füllen Sie das Formular aus — wir melden uns innerhalb von 1–2 Werktagen.">Fill in the form and we'll be in touch within 1–2 business days.</p>
+
+        <div class="cf-success" id="cfSuccess" role="status" aria-live="polite">
+          <div class="cf-success-icon">✅</div>
+          <h3 data-en="Request sent!" data-de="Anfrage gesendet!">Request sent!</h3>
+          <p data-en="Thank you. Dr. Rudolph will be in touch within 1–2 business days." data-de="Vielen Dank. Dr. Rudolph meldet sich innerhalb von 1–2 Werktagen.">Thank you. Dr. Rudolph will be in touch within 1–2 business days.</p>
+        </div>
+
+        <form class="cf-form" id="contactForm" novalidate>
+          <input type="hidden" name="formStartedAt" id="cfFormStartedAt" value="">
+          <input
+            class="cf-honeypot"
+            type="text"
+            name="website"
+            id="cfWebsite"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          >
+
+          <div class="cf-field" data-field="fullName">
+            <label class="cf-label" for="cfFullName" data-en="Full Name *" data-de="Vollständiger Name *">Full Name *</label>
             <input
-              class="cf-input-real"
+              class="cf-input"
               id="cfFullName"
               name="fullName"
               type="text"
@@ -1077,55 +1091,48 @@
               maxlength="120"
               aria-describedby="cfFullNameError"
             >
+            <p class="cf-field-error" id="cfFullNameError" aria-live="polite"></p>
           </div>
-          <p class="cf-field-error" id="cfFullNameError" aria-live="polite"></p>
-        </div>
 
-        <!-- EMAIL -->
-        <div class="cf-field" data-field="email">
-          <label class="cf-label" for="cfEmail" data-en="Email Address *" data-de="E-Mail-Adresse *">Email Address *</label>
-          <div class="cf-input-bg">
-            <input
-              class="cf-input-real"
-              id="cfEmail"
-              name="email"
-              type="email"
-              placeholder="jane@company.com"
-              autocomplete="email"
-              required
-              maxlength="160"
-              inputmode="email"
-              aria-describedby="cfEmailError"
-            >
+          <div class="cf-field-row">
+            <div class="cf-field" data-field="email">
+              <label class="cf-label" for="cfEmail" data-en="Email Address *" data-de="E-Mail-Adresse *">Email Address *</label>
+              <input
+                class="cf-input"
+                id="cfEmail"
+                name="email"
+                type="email"
+                placeholder="jane@company.com"
+                autocomplete="email"
+                required
+                maxlength="160"
+                inputmode="email"
+                aria-describedby="cfEmailError"
+              >
+              <p class="cf-field-error" id="cfEmailError" aria-live="polite"></p>
+            </div>
+
+            <div class="cf-field" data-field="phone">
+              <label class="cf-label" for="cfPhone" data-en="Phone Number" data-de="Telefonnummer">Phone Number</label>
+              <input
+                class="cf-input"
+                id="cfPhone"
+                name="phone"
+                type="tel"
+                placeholder="+49 (0) 000 000"
+                autocomplete="tel"
+                maxlength="30"
+                inputmode="tel"
+                aria-describedby="cfPhoneError"
+              >
+              <p class="cf-field-error" id="cfPhoneError" aria-live="polite"></p>
+            </div>
           </div>
-          <p class="cf-field-error" id="cfEmailError" aria-live="polite"></p>
-        </div>
 
-        <!-- PHONE -->
-        <div class="cf-field" data-field="phone">
-          <label class="cf-label" for="cfPhone" data-en="Phone Number" data-de="Telefonnummer">Phone Number</label>
-          <div class="cf-input-bg">
+          <div class="cf-field" data-field="company">
+            <label class="cf-label" for="cfCompany" data-en="Company / Institution *" data-de="Unternehmen / Institution *">Company / Institution *</label>
             <input
-              class="cf-input-real"
-              id="cfPhone"
-              name="phone"
-              type="tel"
-              placeholder="+1 (555) 000-0000"
-              autocomplete="tel"
-              maxlength="30"
-              inputmode="tel"
-              aria-describedby="cfPhoneError"
-            >
-          </div>
-          <p class="cf-field-error" id="cfPhoneError" aria-live="polite"></p>
-        </div>
-
-        <!-- COMPANY -->
-        <div class="cf-field cf-field-full" data-field="company">
-          <label class="cf-label" for="cfCompany" data-en="Company / Institution *" data-de="Unternehmen / Institution *">Company / Institution *</label>
-          <div class="cf-input-bg">
-            <input
-              class="cf-input-real"
+              class="cf-input"
               id="cfCompany"
               name="company"
               type="text"
@@ -1136,87 +1143,109 @@
               maxlength="160"
               aria-describedby="cfCompanyError"
             >
+            <p class="cf-field-error" id="cfCompanyError" aria-live="polite"></p>
           </div>
-          <p class="cf-field-error" id="cfCompanyError" aria-live="polite"></p>
-        </div>
 
-        <!-- ADDITIONAL DETAILS -->
-        <div class="cf-field cf-field-full cf-field-details" data-field="details">
-          <label class="cf-label" for="cfDetails" data-en="Additional Details" data-de="Weitere Details">Additional Details</label>
-          <div class="cf-input-bg">
+          <div class="cf-field" data-field="application">
+            <label class="cf-label" for="cfApplication" data-en="Application / Process" data-de="Anwendung / Prozess">Application / Process</label>
+            <div class="cf-select-wrap">
+              <select class="cf-input cf-select" id="cfApplication" name="application" aria-describedby="cfApplicationError">
+                <option value="" data-en="Select — Injection Molding · Extrusion · Other…" data-de="Auswählen — Spritzguss · Extrusion · Sonstiges…">Select — Injection Molding · Extrusion · Other…</option>
+                <option value="injection-molding" data-en="Injection Molding" data-de="Spritzguss">Injection Molding</option>
+                <option value="extrusion" data-en="Extrusion" data-de="Extrusion">Extrusion</option>
+                <option value="other" data-en="Other" data-de="Sonstiges">Other</option>
+              </select>
+            </div>
+            <p class="cf-field-error" id="cfApplicationError" aria-live="polite"></p>
+          </div>
+
+          <div class="cf-field" data-field="materials">
+            <label class="cf-label" for="cfMaterials" data-en="Material(s)" data-de="Material(ien)">Material(s)</label>
+            <input
+              class="cf-input"
+              id="cfMaterials"
+              name="materials"
+              type="text"
+              placeholder="e.g. PP Homopolymer, PET, ABS…"
+              maxlength="200"
+              aria-describedby="cfMaterialsError"
+            >
+            <p class="cf-field-error" id="cfMaterialsError" aria-live="polite"></p>
+          </div>
+
+          <div class="cf-field" data-field="details">
+            <label class="cf-label" for="cfDetails" data-en="Additional Details" data-de="Weitere Details">Additional Details</label>
             <textarea
-              class="cf-textarea-real"
+              class="cf-input cf-textarea"
               id="cfDetails"
               name="details"
               placeholder="Requirements, temperature/pressure range, geometry, deadline…"
               maxlength="2000"
+              rows="5"
               aria-describedby="cfDetailsError"
             ></textarea>
+            <div class="cf-field-meta">
+              <p class="cf-field-error" id="cfDetailsError" aria-live="polite"></p>
+              <p class="cf-field-counter" id="cfDetailsCounter">0 / 2000</p>
+            </div>
           </div>
-          <div class="cf-field-meta">
-            <p class="cf-field-error" id="cfDetailsError" aria-live="polite"></p>
-            <p class="cf-field-counter" id="cfDetailsCounter">0 / 2000</p>
-          </div>
-        </div>
 
-        <div class="cf-consent-row">
-          <label class="cf-consent" for="cfConsent" data-field="consent">
-            <input class="cf-consent-input" id="cfConsent" name="consent" type="checkbox" value="yes" aria-describedby="cfConsentError" required>
-            <span class="cf-consent-box" aria-hidden="true"></span>
-            <span class="cf-privacy" data-en="I agree to be contacted by MatIQ / NETZSCH regarding this request and the next steps." data-de="Ich stimme zu, dass MatIQ / NETZSCH mich bezüglich dieser Anfrage und der nächsten Schritte kontaktieren darf.">I agree to be contacted by MatIQ / NETZSCH regarding this request and the next steps.</span>
-          </label>
-          <p class="cf-field-error" id="cfConsentError" aria-live="polite"></p>
-        </div>
+          <p class="cf-privacy" data-en="By submitting this form you agree to be contacted by MatIQ / NETZSCH regarding your request." data-de="Mit dem Absenden dieses Formulars stimmen Sie zu, dass MatIQ / NETZSCH Sie bezüglich Ihrer Anfrage kontaktieren darf.">By submitting this form you agree to be contacted by MatIQ / NETZSCH regarding your request.</p>
 
-        <p class="cf-form-status" id="cfFormStatus" role="status" aria-live="polite"></p>
+          <p class="cf-form-status" id="cfFormStatus" role="status" aria-live="polite"></p>
 
-        <!-- SUBMIT -->
-        <button class="cf-submit" id="cfSubmit" type="submit">
-          <span class="cf-submit-bg"></span>
-          <span
-            class="cf-submit-text"
-            data-en="Submit Request  →"
-            data-de="Anfrage senden  →"
-            data-en-loading="Sending Request..."
-            data-de-loading="Anfrage wird gesendet..."
-          >Submit Request  →</span>
-        </button>
-      </form>
+          <button class="cf-submit" id="cfSubmit" type="submit">
+            <span
+              class="cf-submit-text"
+              data-en="Submit Request"
+              data-de="Anfrage senden"
+              data-en-loading="Sending Request..."
+              data-de-loading="Anfrage wird gesendet..."
+            >Submit Request</span>
+          </button>
+        </form>
+      </section>
 
-      <!-- WHAT HAPPENS NEXT -->
-      <div class="cf-next-card">
-        <p class="cf-next-chip" data-en="WHAT HAPPENS NEXT" data-de="WIE GEHT ES WEITER">WHAT HAPPENS NEXT</p>
-        <div class="cf-next-steps">
-          <div class="cf-next-step">
-            <p class="cf-next-num">01</p>
+    </div>
+  </div>
+
+  <section class="cf-next">
+    <div class="section-inner">
+      <p class="eyebrow eyebrow--on-dark" data-en="WHAT HAPPENS NEXT" data-de="WIE GEHT ES WEITER">WHAT HAPPENS NEXT</p>
+      <div class="cf-next-steps">
+        <div class="cf-next-step">
+          <p class="cf-next-num">01</p>
+          <div>
             <p class="cf-next-title" data-en="We review your request" data-de="Wir prüfen Ihre Anfrage">We review your request</p>
-            <p class="cf-next-desc" data-en="Usually within 1–2 business days." data-de="In der Regel innerhalb von 1–2 Werktagen.">Usually within 1–2 business days.</p>
+            <p class="cf-next-desc" data-en="Within 1–2 business days." data-de="Innerhalb von 1–2 Werktagen.">Within 1–2 business days.</p>
           </div>
-
-          <div class="cf-next-step">
-            <p class="cf-next-num">02</p>
+        </div>
+        <div class="cf-next-step">
+          <p class="cf-next-num">02</p>
+          <div>
             <p class="cf-next-title" data-en="Short intro call" data-de="Kurzes Einführungsgespräch">Short intro call</p>
-            <p class="cf-next-desc" data-en="~30 min to align on scope and requirements." data-de="~30 Min. zur Abstimmung über Umfang und Anforderungen.">~30 min to align on scope and requirements.</p>
+            <p class="cf-next-desc" data-en="~30 min to align on scope." data-de="~30 Min. zur Abstimmung des Umfangs.">~30 min to align on scope.</p>
           </div>
-
-          <div class="cf-next-step">
-            <p class="cf-next-num">03</p>
+        </div>
+        <div class="cf-next-step">
+          <p class="cf-next-num">03</p>
+          <div>
             <p class="cf-next-title" data-en="Data package proposal" data-de="Datenpaket-Angebot">Data package proposal</p>
-            <p class="cf-next-desc" data-en="Tailored quote and timeline sent to you." data-de="Maßgeschneidertes Angebot und Zeitplan zugesandt.">Tailored quote and timeline sent to you.</p>
+            <p class="cf-next-desc" data-en="Tailored quote and timeline." data-de="Maßgeschneidertes Angebot und Zeitplan.">Tailored quote and timeline.</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <footer class="footer">
-    <div class="footer-left">
+    <div class="section-inner footer-inner">
       <div class="footer-logo"><img src="/assets/logo-cf-sm.svg" alt="MatIQ"></div>
-      <span class="footer-brand-sub">A <b>NETZSCH PROVEN</b> EXCELLENCE MATERIAL MEASUREMENT</span>
+      <p class="footer-copy">© 2026 MatIQ · Netzsch Group · All rights reserved · <a class="footer-imprint" href="https://nedgex.com/imprint/" target="_blank" rel="noopener noreferrer" data-en="Imprint" data-de="Impressum">Imprint</a></p>
     </div>
-    <p class="footer-copy">© 2026 MatIQ · Netzsch Group · All rights reserved</p>
   </footer>
 </div>
+
 
 <script>
   /* ── scroll nav shadow ── */

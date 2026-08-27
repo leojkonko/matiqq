@@ -7,6 +7,8 @@ const limits = {
   email: { max: 160 },
   phone: { max: 30 },
   company: { min: 2, max: 160 },
+  application: { max: 80 },
+  materials: { max: 200 },
   details: { max: 2000 },
 };
 
@@ -29,6 +31,8 @@ const copy = {
     email: "Email",
     phone: "Phone",
     company: "Company / Institution",
+    application: "Application / Process",
+    materials: "Material(s)",
     details: "Project details",
     language: "Language",
     submittedFrom: "Submitted from",
@@ -52,6 +56,8 @@ const copy = {
     email: "E-Mail",
     phone: "Telefon",
     company: "Unternehmen / Institution",
+    application: "Anwendung / Prozess",
+    materials: "Material(ien)",
     details: "Projektdetails",
     language: "Sprache",
     submittedFrom: "Abgesendet von",
@@ -130,11 +136,30 @@ function buildServerLogPayload(clean) {
     email: maskEmail(clean.email),
     phone: maskPhone(clean.phone),
     companyLength: clean.company.length,
+    application: clean.application || null,
+    materialsLength: clean.materials.length,
     detailsLength: clean.details.length,
     consent: clean.consent,
     hasWebsiteValue: Boolean(clean.website),
     formStartedAt: clean.formStartedAt,
   };
+}
+
+function formatApplicationLabel(value, locale) {
+  const labels = {
+    en: {
+      "injection-molding": "Injection Molding",
+      extrusion: "Extrusion",
+      other: "Other",
+    },
+    de: {
+      "injection-molding": "Spritzguss",
+      extrusion: "Extrusion",
+      other: "Sonstiges",
+    },
+  };
+
+  return labels[locale]?.[value] || value;
 }
 
 function validatePayload(payload) {
@@ -147,6 +172,8 @@ function validatePayload(payload) {
     email: normalizeSingleLine(payload?.email).toLowerCase(),
     phone: normalizeSingleLine(payload?.phone),
     company: normalizeSingleLine(payload?.company),
+    application: normalizeSingleLine(payload?.application),
+    materials: normalizeSingleLine(payload?.materials),
     details: normalizeMultiline(payload?.details),
     consent: parseConsent(payload?.consent),
     website: normalizeSingleLine(payload?.website),
@@ -181,6 +208,16 @@ function validatePayload(payload) {
     fieldErrors.company = messages.tooShort(limits.company.min);
   } else if (clean.company.length > limits.company.max) {
     fieldErrors.company = messages.tooLong(limits.company.max);
+  }
+
+  if (clean.application && !["injection-molding", "extrusion", "other"].includes(clean.application)) {
+    fieldErrors.application = messages.validationSummary;
+  } else if (clean.application.length > limits.application.max) {
+    fieldErrors.application = messages.tooLong(limits.application.max);
+  }
+
+  if (clean.materials.length > limits.materials.max) {
+    fieldErrors.materials = messages.tooLong(limits.materials.max);
   }
 
   if (clean.details.length > limits.details.max) {
@@ -221,10 +258,6 @@ function getTransportConfig() {
     return null;
   }
 
-  if (!process.env.CONTACT_RECIPIENT) {
-    return null;
-  }
-
   return {
     host: process.env.SMTP_HOST,
     port,
@@ -238,7 +271,7 @@ function getTransportConfig() {
         }
       : undefined,
     from,
-    recipient: process.env.CONTACT_RECIPIENT,
+    recipient: process.env.CONTACT_RECIPIENT || "Natalie.Rudolph@netzsch.com",
   };
 }
 
@@ -246,6 +279,10 @@ function buildMessageBody(clean, messages, req) {
   const submittedFrom = req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || req.socket.remoteAddress || messages.notProvided;
   const userAgent = req.headers["user-agent"] || messages.notProvided;
   const details = clean.details || messages.notProvided;
+  const application = clean.application
+    ? formatApplicationLabel(clean.application, clean.locale)
+    : messages.notProvided;
+  const materials = clean.materials || messages.notProvided;
   const localeLabel = clean.locale.toUpperCase();
 
   return {
@@ -255,6 +292,8 @@ function buildMessageBody(clean, messages, req) {
       `${messages.email}: ${clean.email}`,
       `${messages.phone}: ${clean.phone || messages.notProvided}`,
       `${messages.company}: ${clean.company}`,
+      `${messages.application}: ${application}`,
+      `${messages.materials}: ${materials}`,
       `${messages.language}: ${localeLabel}`,
       `${messages.submittedFrom}: ${submittedFrom}`,
       `${messages.userAgent}: ${userAgent}`,
@@ -270,6 +309,8 @@ function buildMessageBody(clean, messages, req) {
           <tr><td style="padding:6px 0;font-weight:700">${escapeHtml(messages.email)}</td><td style="padding:6px 0">${escapeHtml(clean.email)}</td></tr>
           <tr><td style="padding:6px 0;font-weight:700">${escapeHtml(messages.phone)}</td><td style="padding:6px 0">${escapeHtml(clean.phone || messages.notProvided)}</td></tr>
           <tr><td style="padding:6px 0;font-weight:700">${escapeHtml(messages.company)}</td><td style="padding:6px 0">${escapeHtml(clean.company)}</td></tr>
+          <tr><td style="padding:6px 0;font-weight:700">${escapeHtml(messages.application)}</td><td style="padding:6px 0">${escapeHtml(application)}</td></tr>
+          <tr><td style="padding:6px 0;font-weight:700">${escapeHtml(messages.materials)}</td><td style="padding:6px 0">${escapeHtml(materials)}</td></tr>
           <tr><td style="padding:6px 0;font-weight:700">${escapeHtml(messages.language)}</td><td style="padding:6px 0">${escapeHtml(localeLabel)}</td></tr>
           <tr><td style="padding:6px 0;font-weight:700">${escapeHtml(messages.submittedFrom)}</td><td style="padding:6px 0">${escapeHtml(submittedFrom)}</td></tr>
           <tr><td style="padding:6px 0;font-weight:700">${escapeHtml(messages.userAgent)}</td><td style="padding:6px 0">${escapeHtml(userAgent)}</td></tr>
@@ -325,7 +366,7 @@ export default async function handler(req, res) {
         hasUser: Boolean(process.env.SMTP_USER),
         hasPass: Boolean(process.env.SMTP_PASS),
         hasFrom: Boolean(process.env.CONTACT_FROM),
-        hasRecipient: Boolean(process.env.CONTACT_RECIPIENT),
+        recipient: process.env.CONTACT_RECIPIENT || "Natalie.Rudolph@netzsch.com",
       });
       return res.status(500).json({ error: messages.missingConfig });
     }

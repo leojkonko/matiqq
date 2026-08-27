@@ -37,6 +37,8 @@ const limits = {
   email: { max: 160 },
   phone: { max: 30 },
   company: { min: 2, max: 160 },
+  application: { max: 80 },
+  materials: { max: 200 },
   details: { max: 2000 },
 };
 
@@ -74,6 +76,8 @@ const buildClientLogPayload = (payload) => ({
   email: maskEmail(payload.email),
   phone: maskPhone(payload.phone),
   companyLength: payload.company.length,
+  application: payload.application || null,
+  materialsLength: payload.materials.length,
   detailsLength: payload.details.length,
   consent: payload.consent,
   hasWebsiteValue: Boolean(payload.website),
@@ -136,15 +140,20 @@ export function initializeMatiqSite() {
       error: document.getElementById("cfCompanyError"),
       container: document.querySelector('[data-field="company"]'),
     },
+    application: {
+      input: document.getElementById("cfApplication"),
+      error: document.getElementById("cfApplicationError"),
+      container: document.querySelector('[data-field="application"]'),
+    },
+    materials: {
+      input: document.getElementById("cfMaterials"),
+      error: document.getElementById("cfMaterialsError"),
+      container: document.querySelector('[data-field="materials"]'),
+    },
     details: {
       input: detailsInput,
       error: document.getElementById("cfDetailsError"),
       container: document.querySelector('[data-field="details"]'),
-    },
-    consent: {
-      input: document.getElementById("cfConsent"),
-      error: document.getElementById("cfConsentError"),
-      container: document.querySelector('[data-field="consent"]'),
     },
   };
 
@@ -231,7 +240,7 @@ export function initializeMatiqSite() {
     submitText && (submitText.textContent = getSubmitLabel(nextState ? "loading" : "idle"));
 
     contactForm
-      ?.querySelectorAll("input, textarea, button")
+      ?.querySelectorAll("input, textarea, select, button")
       .forEach((element) => {
         element.disabled = nextState;
       });
@@ -314,7 +323,7 @@ export function initializeMatiqSite() {
   const getFieldError = (fieldName) => {
     const messages = getCopy();
     const field = fieldMap[fieldName];
-    const rawValue = fieldName === "consent" ? field.input.checked : field.input.value;
+    const rawValue = field.input.value;
 
     switch (fieldName) {
       case "fullName": {
@@ -370,6 +379,22 @@ export function initializeMatiqSite() {
         return "";
       }
 
+      case "application": {
+        const value = normalizeSingleLine(rawValue);
+        if (value.length > limits.application.max) {
+          return messages.tooLong(limits.application.max);
+        }
+        return "";
+      }
+
+      case "materials": {
+        const value = normalizeSingleLine(rawValue);
+        if (value.length > limits.materials.max) {
+          return messages.tooLong(limits.materials.max);
+        }
+        return "";
+      }
+
       case "details": {
         const value = normalizeMultiline(rawValue);
         if (value.length > limits.details.max) {
@@ -377,9 +402,6 @@ export function initializeMatiqSite() {
         }
         return "";
       }
-
-      case "consent":
-        return rawValue ? "" : messages.requiredConsent;
 
       default:
         return "";
@@ -430,8 +452,10 @@ export function initializeMatiqSite() {
     email: normalizeSingleLine(fieldMap.email.input.value).toLowerCase(),
     phone: normalizeSingleLine(fieldMap.phone.input.value),
     company: normalizeSingleLine(fieldMap.company.input.value),
+    application: normalizeSingleLine(fieldMap.application.input.value),
+    materials: normalizeSingleLine(fieldMap.materials.input.value),
     details: normalizeMultiline(fieldMap.details.input.value),
-    consent: fieldMap.consent.input.checked,
+    consent: true,
     website: normalizeSingleLine(document.getElementById("cfWebsite")?.value),
     formStartedAt: Number(formStartedAtInput?.value || Date.now()),
   });
@@ -561,10 +585,13 @@ export function initializeMatiqSite() {
       return;
     }
 
-    const eventName = field.input.type === "checkbox" ? "change" : "blur";
+    const eventName =
+      field.input.tagName === "SELECT" || field.input.type === "checkbox"
+        ? "change"
+        : "blur";
     field.input.addEventListener(eventName, () => onFormInteraction(fieldName));
 
-    if (field.input.type !== "checkbox") {
+    if (field.input.type !== "checkbox" && field.input.tagName !== "SELECT") {
       field.input.addEventListener("input", () => {
         if (fieldName === "details") {
           updateDetailsCounter();
